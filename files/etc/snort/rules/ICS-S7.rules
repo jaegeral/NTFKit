@@ -1,0 +1,1 @@
+alert tcp any any -> any 102 (msg: "Possible ICS Traffic Detected: S7 on tcp port 102"; classtype:ics-traffic; sid:9000002;)

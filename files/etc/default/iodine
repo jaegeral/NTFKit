@@ -1,0 +1,5 @@
+# Default settings for iodine. This file is sourced from
+# /etc/init.d/iodined
+START_IODINED="false"
+IODINED_ARGS=""
+IODINED_PASSWORD=""

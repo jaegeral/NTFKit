@@ -1,0 +1,1 @@
+alert tcp any any -> any 1962 (msg: "Possible ICS Traffic Detected: PCWorx on tcp port 1962"; classtype:ics-traffic; sid:9000009;)

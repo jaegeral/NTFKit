@@ -1,0 +1,1 @@
+alert tcp any any -> any 18245 (msg: "Possible ICS Traffic Detected: ge-srtp on tcp port 18245"; classtype:ics-traffic; sid:9000007;)

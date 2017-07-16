@@ -1,0 +1,50 @@
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+  up /usr/local/bin/start_tcpdump_arp_stp.sh eth0 >> /var/log/start_tcpdump_eth0_arp_stp.log
+#  post-up /bin/sh /home/ntfk/scripts/current_address.todo >> /var/log/current_address.log
+  post-down /usr/bin/pgrep -f eth0|/usr/bin/xargs kill 
+
+# Connect to TAP or SPAN port for traffic monitor
+auto eth1
+iface eth1 inet manual
+  up ifconfig $IFACE -arp up
+  up ip link set $IFACE promisc on
+  down ip link set $IFACE promisc off
+  down ifconfig $IFACE down
+  post-up for i in rx tx sg tso ufo gso gro lro; do ethtool -K $IFACE $i off; done
+  up /usr/local/bin/start_tcpdump_arp_stp.sh eth1 >> /var/log/start_tcpdump_eth1_arp_stp.log
+  up /usr/local/bin/start_tcpdump_broadcast_multicast.sh eth1 >> /var/log/start_tcpdump_eth1_broadcast_multicast.log
+#  up /usr/local/bin/start_tcpdump_smb.sh eth1 >> /var/log/start_tcpdump_eth1_smb.log
+  up /usr/local/bin/start_tcpdump.sh eth1 >> /var/log/start_tcpdump_eth1.log
+  up service snort restart
+  down service snort stop
+  post-down /usr/bin/pgrep -f eth1|/usr/bin/xargs kill 
+
+auto wlan0
+iface wlan0 inet static
+  address 192.168.255.1
+  netmask 255.255.255.0
+  up iptables-restore < /etc/iptables.ipv4.nat
+  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan0 >> /var/log/start_tcpdump_wlan0_arp_stp.log
+  post-down /usr/bin/pgrep -f wlan0|/usr/bin/xargs kill 
+
+auto wlan1
+iface wlan1 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+  iface default inet dhcp
+  up iptables-restore < /etc/iptables.ipv4.nat
+  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan1 >> /var/log/start_tcpdump_wlan1_arp_stp.log
+#  post-up /bin/sh /home/ntfk/scripts/current_address.todo >> /var/log/current_address.log
+  post-down /usr/bin/pgrep -f wlan1|/usr/bin/xargs kill 
+
+auto wlan2
+iface wlan2 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+  iface default inet dhcp
+  up iptables-restore < /etc/iptables.ipv4.nat
+  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan2 >> /var/log/start_tcpdump_wlan2_arp_stp.log
+  post-down /usr/bin/pgrep -f wlan2|/usr/bin/xargs kill 
+

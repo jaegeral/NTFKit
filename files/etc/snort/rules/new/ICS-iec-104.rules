@@ -1,0 +1,1 @@
+alert tcp any any -> any 2404 (msg: "Possible ICS Traffic Detected: iec-104 on tcp port 2404"; classtype:ics-traffic; sid:9000014;)

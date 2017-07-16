@@ -1,0 +1,1 @@
+alert udp any any -> any 5094 (msg: "Possible ICS Traffic Detected: hart-ip-udp on udp port 5094"; classtype:ics-traffic; sid:9000008;)

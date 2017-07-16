@@ -1,0 +1,1 @@
+alert tcp any any -> any 502 (msg: "Possible ICS Traffic Detected: Modbus on tcp port 502"; classtype:ics-traffic; sid:9000001;)

@@ -1,0 +1,1 @@
+alert tcp any any -> any 789 (msg: "Possible ICS Traffic Detected: redlion-crimson3 on tcp port 789"; classtype:ics-traffic; sid:9000012;)

@@ -1,0 +1,8 @@
+# Global options for arpwatch(8).
+
+# Debian: don't report bogons, don't use PROMISC.
+#ARGS="-N -p"
+ARGS="-R 5 -Q -u -a"
+
+# Debian: run as `arpwatch' user.  Empty this to run as root.
+RUNAS="arpwatch"

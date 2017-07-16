@@ -1,0 +1,6 @@
+alert tcp $HOME_NET 445 -> any any (msg:”ET EXPLOIT Possible ETERNALBLUE MS17-010 Echo Response”; flow:from_server,established; content:”|00 00 00 31 ff|SMB|2b 00 00 00 00 98 07 c0|”; depth:16; fast_pattern; content:”|4a 6c 4a 6d 49 68 43 6c 42 73 72 00|”; distance:0; flowbits:isset,ETPRO.ETERNALBLUE; classtype:trojan-activity; sid:2024218; rev:2;)
+
+alert smb any any -> $HOME_NET any (msg:”ET EXPLOIT Possible ETERNALBLUE MS17-010 Echo Request (set)”; flow:to_server,established; content:”|00 00 00 31 ff|SMB|2b 00 00 00 00 18 07 c0|”; depth:16; fast_pattern; content:”|4a 6c 4a 6d 49 68 43 6c 42 73 72 00|”; distance:0; flowbits:set,ETPRO.ETERNALBLUE; flowbits:noalert; classtype:trojan-activity; sid:2024220; rev:1;)
+
+alert smb $HOME_NET any -> any any (msg:”ET EXPLOIT Possible ETERNALBLUE MS17-010 Echo Response”; flow:from_server,established; content:”|00 00 00 31 ff|SMB|2b 00 00 00 00 98 07 c0|”; depth:16; fast_pattern; content:”|4a 6c 4a 6d 49 68 43 6c 42 73 72 00|”; distance:0; flowbits:isset,ETPRO.ETERNALBLUE; classtype:trojan-activity; sid:2024218; rev:1;)
+

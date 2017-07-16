@@ -1,0 +1,1 @@
+alert tcp any any -> any 1911 (msg: "Possible ICS Traffic Detected: Niagara-Fox on tcp port 1911"; classtype:ics-traffic; sid:9000004;)

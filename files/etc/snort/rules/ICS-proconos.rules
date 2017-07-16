@@ -1,0 +1,1 @@
+alert tcp any any -> any 20547 (msg: "Possible ICS Traffic Detected: proconos on tcp port 20547"; classtype:ics-traffic; sid:9000015;)

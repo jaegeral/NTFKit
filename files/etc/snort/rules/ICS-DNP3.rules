@@ -1,0 +1,1 @@
+alert tcp any any -> any 20000 (msg: "Possible ICS Traffic Detected: DNP3 on tcp port 20000"; classtype:ics-traffic; sid:9000003;)

@@ -1,0 +1,22 @@
+# $Id: local.rules,v 1.11 2004/07/23 20:15:44 bmc Exp $
+# ----------------
+# LOCAL RULES
+# ----------------
+# This file intentionally does not come with signatures.  Put your local
+# additions here.
+#include $RULE_PATH/all-quickdraw.rules
+include $RULE_PATH/ICS-BACnet.rules
+include $RULE_PATH/ICS-DNP3.rules
+include $RULE_PATH/ICS-Modbus.rules
+include $RULE_PATH/ICS-Niagara-Fox.rules
+include $RULE_PATH/ICS-PCWorx.rules
+include $RULE_PATH/ICS-S7.rules
+include $RULE_PATH/ICS-cadesys.rules
+include $RULE_PATH/ICS-foundation-fieldbus.rules
+include $RULE_PATH/ICS-ge-srtp.rules
+include $RULE_PATH/ICS-hart-ip-udp.rules
+include $RULE_PATH/ICS-iec-104.rules
+include $RULE_PATH/ICS-melsec-q-tcp.rules
+include $RULE_PATH/ICS-omron-tcp.rules
+include $RULE_PATH/ICS-proconos.rules
+include $RULE_PATH/ICS-redlion-crimson3.rules

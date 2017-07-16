@@ -1,0 +1,6 @@
+arpwatch
+tshark
+dnsmasq
+ufw
+#osquery
+wifite

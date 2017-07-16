@@ -1,0 +1,1 @@
+alert udp any any -> any 47808 (msg: "Possible ICS Traffic Detected: BACnet on udp port 47808"; classtype:ics-traffic; sid:9000005;)

@@ -1,0 +1,3 @@
+Acquire::http::Proxy "http://formauth.basf.net:9090/";
+Acquire::https::Proxy "http://formauth.basf.net:9090/";
+Acquire::ftp::Proxy "http://formauth.basf.net:9090/";

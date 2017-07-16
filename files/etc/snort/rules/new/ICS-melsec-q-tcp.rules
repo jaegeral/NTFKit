@@ -1,0 +1,1 @@
+alert tcp any any -> any 5007 (msg: "Possible ICS Traffic Detected: melsec-q-tcp on tcp port 5007"; classtype:ics-traffic; sid:9000010;)

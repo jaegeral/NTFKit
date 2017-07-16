@@ -1,0 +1,1 @@
+alert tcp any any -> any 9600 (msg: "Possible ICS Traffic Detected: omron-tcp on tcp port 9600"; classtype:ics-traffic; sid:9000011;)

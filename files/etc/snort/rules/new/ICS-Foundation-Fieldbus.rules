@@ -1,0 +1,1 @@
+alert udp any any -> any 1089 (msg: "Possible ICS Traffic Detected: Foundation-Fieldbus on udp port 1089"; classtype:ics-traffic; sid:9000016;)
