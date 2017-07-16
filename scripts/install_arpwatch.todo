@@ -1,0 +1,13 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+# install arpwatch
+sudo apt-get update
+sudo apt-get --install-suggests -y install arpwatch
+scp $NTFK_MASTER:files/etc_default_arpwatch .
+sudo cp ./etc_default_arpwatch /etc/default
+#sudo /etc/init.d/arpwatch restart
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

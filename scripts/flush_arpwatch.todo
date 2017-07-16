@@ -1,0 +1,27 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+BACKUP_FILE=/tmp/backup.arpwatch.`hostname`.`date +%Y%m%d-%H%M%S`.tgz
+
+# stop arpwatch
+echo "  stopping arpwatch service"
+sudo service arpwatch stop
+cd /var/lib
+echo "  creating backup"
+sudo tar -czvf $BACKUP_FILE ./arpwatch
+echo "  removing old files"
+sudo rm -f /var/lib/arpwatch/*
+echo "  starting arpwatch service"
+sudo service arpwatch start
+sudo chown $NTFK_USER $BACKUP_FILE
+echo "  scp arpwatch backup to $NTFK_MASTER"
+scp $BACKUP_FILE $NTFK_MASTER:`hostname`/backup
+cd
+
+echo "  scp done file to $NTFK_MASTER"
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

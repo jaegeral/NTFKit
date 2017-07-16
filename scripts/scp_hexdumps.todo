@@ -1,0 +1,18 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+# create working directories
+ssh -f $NTFK_MASTER mkdir `hostname`  > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/done > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/binaries > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/hexdumps > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/sniffer-traces > /dev/null 2>&1
+
+#copy hexdumps files
+scp -p /var/lib/nepenthes/hexdumps/* $NTFK_MASTER:`hostname`/hexdumps/
+scp -p /var/lib/nepenthes/binaries/* $NTFK_MASTER:`hostname`/binaries/
+#scp -p /root/sniffer-traces/* $NTFK_MASTER:`hostname`/sniffer-traces/
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

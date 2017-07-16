@@ -1,0 +1,10 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+#reboot
+sudo sync; sudo sync; sudo reboot
+

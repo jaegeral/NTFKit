@@ -1,0 +1,12 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+#Update authorized_keys
+rsync -vrlpaP $NTFK_MASTER:files/home/$NTFK_USER/.ssh/* ~/.ssh
+cat ~/.ssh/*.pub |sort -u > ~/.ssh/authorized_keys
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

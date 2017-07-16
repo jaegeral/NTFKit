@@ -1,0 +1,2 @@
+echo "Waiting for you to press enter."
+read X

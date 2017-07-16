@@ -1,0 +1,23 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+# create working directories
+mkdir ~/todo > /dev/null 2>&1
+mkdir ~/packages > /dev/null 2>&1
+mkdir ~/scripts > /dev/null 2>&1
+mkdir ~/backups > /dev/null 2>&1
+mkdir ~/output > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir current > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`  > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/done > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/binaries > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/hexdumps > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/backup > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/todo > /dev/null 2>&1
+ssh -f $NTFK_MASTER mkdir `hostname`/output > /dev/null 2>&1
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

@@ -1,0 +1,12 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+#set runlevel
+sudo dpkg-divert --remove /lib/udev/rules.d/75-persistent-net-generator.rules
+sudo cp /lib/udev/rules.d/75-persistent-net-generator.rules.distrib /lib/udev/rules.d/75-persistent-net-generator.rules
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

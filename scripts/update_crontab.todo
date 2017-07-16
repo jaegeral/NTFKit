@@ -1,0 +1,24 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+if [ $# -eq 1 ]
+then
+  NTFK_CRONTAB=$1
+else
+  NTFK_CRONTAB=scripts/crontab.$NTFK_USER.$USER.todo.data
+fi
+
+if [ -d backups ]
+then
+  crontab -l > backups/crontab.`hostname`.$USER.`date +%Y%m%d-%H%M%S`
+else
+  crontab -l > crontab.`hostname`.$USER.`date +%Y%m%d-%H%M%S`
+fi
+
+crontab $NTFK_CRONTAB
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

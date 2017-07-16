@@ -1,0 +1,7 @@
+USER=root
+# m h  dom mon dow   command
+20 * * * * scp $NTFK_MASTER:scripts/* . > /tmp/scp_todo_files.$USER.log 2>&1
+#20 * * * * sh ~/copy_scripts.todo > /tmp/scp_todo_files.$USER.log 2>&1
+25 * * * * crontab ~/crontab.root.todo > /tmp/update_crontab.$USER.log 2>&1
+#0 * * * 1 sh ~/reboot.todo > /tmp/reboot.$USER.log 2>&1
+#30 0 * * * sh ~/scp_sniffer-traces.todo > /tmp/scp_sniffer-traces.$USER.log 2>&1

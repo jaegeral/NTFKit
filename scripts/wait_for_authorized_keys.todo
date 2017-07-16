@@ -1,0 +1,4 @@
+echo
+echo "Please go to the log server and run the following command before pressing Enter:"
+echo "    cat .ssh/*.pub > .ssh/authorized_keys"
+read X

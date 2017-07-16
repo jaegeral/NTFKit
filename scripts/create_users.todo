@@ -1,0 +1,13 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+#set|grep NTFK
+
+NTFK_ENCRYPT=`perl -e 'printf("%s\n", crypt($ARGV[0], "password"))' "$NTFK_PASS"`
+
+adduser --disabled-password --gecos "" $NTFK_USER
+
+#scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

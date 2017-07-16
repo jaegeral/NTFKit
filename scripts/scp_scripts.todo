@@ -1,0 +1,14 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+#do something
+scp -vr $NTFK_MASTER:scripts .
+scp -vr $NTFK_MASTER:/etc/ntfk.conf /etc
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

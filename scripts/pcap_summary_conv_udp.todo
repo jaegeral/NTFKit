@@ -1,0 +1,31 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+if [ ! -d $NTFK_OUTPUT ]
+then
+  mkdir $NTFK_OUTPUT
+fi
+
+#
+OUTPUT_FILE=$NTFK_OUTPUT/`hostname`.`basename $CURRENT_FILE`.`date +%Y%m%d-%H%M%S`.txt
+
+cd $NTFK_PCAP_DIR
+ls *.eth1.pcap.?? |grep -v ".START."|grep -v '.arp.'|sort |
+while read PCAP_FILE; do
+    echo "START: $PCAP_FILE" >> $OUTPUT_FILE
+    stat $PCAP_FILE >> $OUTPUT_FILE
+    tshark -n -r $PCAP_FILE -q -z conv,udp >> $OUTPUT_FILE 
+done
+
+gzip $OUTPUT_FILE
+OUTPUT_FILE="$OUTPUT_FILE.gz"
+
+scp $OUTPUT_FILE $NTFK_MASTER:`hostname`/output
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

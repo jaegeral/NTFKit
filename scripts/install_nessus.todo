@@ -1,0 +1,23 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+# make package directory
+mkdir ~/packages > /dev/null 2>&1
+
+# download nessus package
+scp $NTFK_MASTER:packages/* ~/packages
+
+# install nessus
+sudo dpkg -i ~/packages/Nessus-4.2.0-ubuntu804_i386.deb
+cd /
+sudo tar -xzvf ~/packages/opt_nessus_lib_nessus_plugins.tgz
+cd /opt/nessus/lib/nessus/plugins
+sudo cp ~/packages/plugin_feed_info.inc .
+sudo /opt/nessus/sbin/nessus-adduser
+sudo /opt/nessus/sbin/nessusd -R
+
+cd
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

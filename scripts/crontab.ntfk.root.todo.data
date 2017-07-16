@@ -1,0 +1,22 @@
+USER=root
+# m h  dom mon dow   command
+#@reboot /usr/local/bin/restart_cyberlens_sensor_daemon.sh 2
+
+#@reboot /usr/local/bin/start_tcpdump.sh eth0 >> /var/log/start_tcpdump_eth0.log
+#@reboot /usr/local/bin/start_tcpdump.sh eth1 >> /var/log/start_tcpdump_eth1.log
+
+#@reboot /usr/local/bin/start_tcpdump_arp.sh eth0 >> /var/log/start_tcpdump_eth0_arp.log
+#@reboot /usr/local/bin/start_tcpdump_arp.sh eth1 >> /var/log/start_tcpdump_eth1_arp.log
+
+#@reboot /usr/local/bin/restart_dhcpd.sh
+
+#0 * * * * service cups restart
+
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/local/bin/connect_wlan2.sh >> /var/log/connect_wlan2.sh.log
+
+#@reboot /usr/local/bin/start_proxy.sh vps03.aydell.com 9013 >> /var/log/start_proxy_vps03.log 2>&1
+#@reboot /usr/local/bin/start_proxy.sh vps04.aydell.com 9014 >> /var/log/start_proxy_vps04.log 2>&1
+#@reboot /usr/local/bin/start_proxy.sh vps05.aydell.com 9015 >> /var/log/start_proxy_vps05.log 2>&1
+
+#0,15,30,45 * * * * /usr/local/bin/monitor_proxies.sh >> /var/log/monitor_proxies.log 2>&1
+

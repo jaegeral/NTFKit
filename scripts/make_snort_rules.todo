@@ -1,0 +1,23 @@
+#
+# set up variables
+#CURRENT_FILE='template.todo'
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+BASE_DIR=~/backups/ntfk0000
+OUTPUT_DIR=$BASE_DIR/files/etc/snort/rules/new
+mkdir -p $OUTPUT_DIR
+
+#do something
+#cat $BASE_DIR/files/tmp/ics-protocols.txt |while read PROTOCOL TYPE PORT DESC; do echo "Port: $PORT"; done
+
+while read PROTOCOL TYPE PORT SID DESC
+do 
+  echo "Protocol: $PROTOCOL"
+  echo "Type: $TYPE"
+  echo "Port: $PORT"
+  echo "Description: $DESC"
+  echo "alert $TYPE any any -> any $PORT (msg: \"Possible ICS Traffic Detected: $PROTOCOL on $TYPE port $PORT\"; classtype:ics-traffic; sid:$SID;)" > $OUTPUT_DIR/ICS-$PROTOCOL.rules
+done
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

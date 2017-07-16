@@ -1,0 +1,48 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+#copy all todo files
+scp $NTFK_MASTER:scripts/* .
+
+# create ssh key and scp to $NTFK_MASTER
+sh ./keygen.todo
+
+# create working directories
+sh ./create_dirs.todo
+
+# copy packages
+sh ./copy_packages.todo
+
+# create current_address file
+sh ./current_address.todo
+
+# update sudoers file
+sh ./update_sudoers.todo
+
+# create localsensor
+sh ./create_localsensor.todo
+
+# update shellcodes
+sh ./shellcode.todo
+
+# install nmap
+sh ./install_nmap.todo
+
+# install traceroute
+sh ./install_traceroute.todo
+
+# install vlan
+sh ./install_vlan.todo
+
+# install arpwatch
+sh ./install_arpwatch.todo
+
+# update current IP address
+sh ./current_address.todo
+
+# create crontab
+crontab ./crontab.todo
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

@@ -1,0 +1,20 @@
+#
+# set up variables
+#CURRENT_FILE='template.todo'
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+# services to disable
+DISABLE_LIST="openvpn smbd nmbd cups cups-browsed samba samba-ad-dc dhcpcd"
+
+# disable loop
+for SERVICE_NAME in $DISABLE_LIST; do
+  echo "Stopping service: $SERVICE_NAME"
+  sudo service $SERVICE_NAME stop
+  echo "Disabling service: $SERVICE_NAME"
+  sudo update-rc.d $SERVICE_NAME disable
+done
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

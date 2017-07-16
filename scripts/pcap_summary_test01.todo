@@ -1,0 +1,23 @@
+#
+# set up variables
+#CURRENT_FILE='template.todo'
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+#
+cd $NTFK_PCAP_DIR
+ls *.START.*|
+  awk 'BEGIN { FS = ".START." } ; { print $1 }'|
+  sort -u|
+  while read PCAP_PREFIX; do 
+    sudo mkfifo /tmp/$PCAP_PREFIX.fifo
+    tshark -n -r /tmp/$PCAP_PREFIX.fifo -T fields -e ip.src -e eth.src -e ip.dst -e eth.dst -e arp.src.proto_ipv4 -e arp.dst.proto_ipv4 |sort|uniq -c|sort -n &
+    sudo mergecap $PCAP_PREFIX.?? -w /tmp/$PCAP_PREFIX.fifo
+    sudo rm /tmp/$PCAP_PREFIX.fifo
+  done
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

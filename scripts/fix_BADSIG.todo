@@ -1,0 +1,15 @@
+#
+# set up variables
+#CURRENT_FILE='template.todo'
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+#do something
+sudo apt-get clean
+cd /var/lib/apt
+sudo mv lists lists.old
+sudo mkdir -p lists/partial
+sudo apt-get clean
+sudo apt-get update
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

@@ -1,0 +1,233 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+BASE_DIR=~/backups/ntfk0000
+. $BASE_DIR/files/etc/ntfk.conf
+
+GENERATE_KEYS=0 # does not work
+SCP_CONF=1
+SCP_KEYS=1
+SCP_NETWORKING=0
+SCP_SNORT=0
+UPDATE_SUDOERS=0
+UPDATE_RSYSLOG=0
+UPDATE_UDEV_RULES=0
+CREATE_USERS=0
+CREATE_DIRS=0
+RSTNC_SCRIPTS=1
+RSYNC_FILES=1
+RSYNC_PCAP=0
+INSTALL_SNORT=0
+INSTALL_YARA=0
+SET_RUNLEVEL=0
+FLUSH_ARPWATCH=0
+FLUSH_SCRIPTS=0
+FLUSH_PCAP=0
+EXEC_CRONTAB=1
+EXEC_CURRENT_ADDR=0
+DISABLE_SERVICES=0
+RESTART_NETWORKING=0
+REBOOT=0
+NTFK_SERVER=0
+NTFK_SENSOR=0
+NTFK_SERVER_LIST='ntfk6000|ntfk5000|ntfk4000|ntfk3000|ntfk0000|10.216.95.233|localhost|ntfk5000.corkscrew|ntfk4000.corkscrew|ntfk3000.corkscrew'
+
+if [ $# -eq 1 ]; then
+  NTFK_HOST=$1
+else
+  echo ""
+  echo "Syntax: `basename $0` NTFK_HOST"
+  echo ""
+fi
+
+# Determine if the target is a sensor or server
+if [ "$NTFK_HOST" == "$NTFK_MASTER" ]; then
+  echo "$NTFK_HOST is SERVER"
+  NTFK_SENSOR=0
+  NTFK_SERVER=1
+elif [[ "$NTFK_HOST" =~ ^($NTFK_SERVER_LIST)$ ]]; then
+  echo "$NTFK_HOST is a SERVER"
+  NTFK_SENSOR=0
+  NTFK_SERVER=1
+else
+  echo "$NTFK_HOST is SENSOR"
+  NTFK_SENSOR=1
+  NTFK_SERVER=0
+fi
+#exit
+
+echo "START: $NTFK_HOST"
+# upload ntfk.conf
+if [ $SCP_CONF -eq 1 ]; then
+  echo "$NTFK_HOST: Uploading ntfk.conf"
+  scp -v $BASE_DIR/files/etc/ntfk.conf root@$NTFK_HOST:/etc
+  ssh -f root@$NTFK_HOST chown ntfk:ntfk /etc/ntfk.conf
+fi
+
+# upload and run create_user script
+if [ $CREATE_USERS -eq 1 ]; then
+  echo "$NTFK_HOST: Creating users"
+  rsync -vrlpaP $BASE_DIR/scripts/create_users.todo root@$NTFK_HOST:/tmp
+  ssh -f root@$NTFK_HOST sh /tmp/create_users.todo
+fi
+
+# generate authorized_keys file
+if [ $GENERATE_KEYS -eq 1 ]; then
+  echo "$NTFK_HOST: Generating authorized_keys"
+  rsync -vrlpaP $BASE_DIR/scripts/keygen.todo root@$NTFK_HOST:/tmp
+  ssh -f root@$NTFK_HOST su - $NTFK_USER; sh /tmp/keygen.todo
+fi
+
+# upload authorized_keys file
+if [ $SCP_KEYS -eq 1 ]; then
+  echo "$NTFK_HOST: Uploading authorized_keys"
+  scp -v $BASE_DIR/files/home/$NTFK_USER/.ssh/* root@$NTFK_HOST:~$NTFK_USER/.ssh
+  ssh -f root@$NTFK_HOST chown $NTFK_USER:$NTFK_USER ~$NTFK_USER/.ssh/*
+  ssh -f root@$NTFK_HOST chmod 600 ~$NTFK_USER/.ssh/*
+fi
+
+# flush scripts
+if [ $FLUSH_SCRIPTS -eq 1 ]; then
+  echo "$NTFK_HOST: Deleting scripts"
+  scp -v $BASE_DIR/scripts/flush_scripts.todo $NTFK_USER@$NTFK_HOST:/tmp
+  ssh -f $NTFK_USER@$NTFK_HOST sh /tmp/flush_scripts.todo
+fi
+
+# upload scripts
+if [ $RSTNC_SCRIPTS -eq 1 ]; then
+  echo "$NTFK_HOST: Uploading scripts"
+  rsync -vrlpaP $BASE_DIR/scripts $NTFK_USER@$NTFK_HOST:.
+fi
+
+# rsync files
+if [ $RSYNC_FILES -eq 1 ]; then
+  echo "$NTFK_HOST: Rsync files"
+  rsync -vrlpaP $BASE_DIR/files $NTFK_USER@$NTFK_HOST:.
+  rsync -vrlpaP $BASE_DIR/files/usr/local/bin/* root@$NTFK_HOST:/usr/local/bin
+fi
+
+# rsync snort
+if [ $SCP_SNORT -eq 1 ]; then
+  echo "$NTFK_HOST: Rsync files"
+  scp -vr $BASE_DIR/files/etc/snort root@$NTFK_HOST:/etc
+fi
+
+# disable unused services
+if [ $DISABLE_SERVICES -eq 1 ]; then
+  echo "$NTFK_HOST: Disable unwanted services"
+  ssh -f $NTFK_USER@$NTFK_HOST sh scripts/disable_unwanted_services.todo
+fi
+
+#Only perform the rest on sensors, NOT master
+if [ $NTFK_SENSOR -eq 1 ]; then
+  # run create_ntfk_dirs.todo script
+  if [ $CREATE_DIRS -eq 1 ]; then
+    echo "$NTFK_HOST: Creating directories on master"
+    rsync -vrlpaP $BASE_DIR/scripts/create_ntfk_dirs.todo ntfk@$NTFK_HOST:scripts
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/create_ntfk_dirs.todo
+  fi
+
+  # flush arpwatch
+  if [ $FLUSH_ARPWATCH -eq 1 ]; then
+    echo "$NTFK_HOST: Uploading scripts"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/flush_arpwatch.todo
+  fi
+
+  # update sueoers
+  if [ $UPDATE_SUDOERS -eq 1 ]; then
+    echo "$NTFK_HOST: Updating sudoers"
+    rsync -vrlpaP $BASE_DIR/files/etc/sudoers.d root@$NTFK_HOST:/etc
+  fi
+
+  # install snort
+  if [ $INSTALL_SNORT -eq 1 ]; then
+    echo "$NTFK_HOST: Installing snort"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/install_snort.todo
+  fi
+
+  # install yara
+  if [ $INSTALL_YARA -eq 1 ]; then
+    echo "$NTFK_HOST: Installing yara"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/install_yara.todo
+  fi
+
+  # rsync pcap
+  if [ $RSYNC_PCAP -eq 1 ]; then
+    echo "$NTFK_HOST: Rsync files"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/rsync_pcap.todo
+  fi
+
+  # flush pcap
+  if [ $FLUSH_PCAP -eq 1 ]; then
+    echo "$NTFK_HOST: Uploading scripts"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/flush_pcap.todo
+  fi
+
+  # execute crontabs
+  if [ $EXEC_CRONTAB -eq 1 ]; then
+    echo "$NTFK_HOST: Executing crontab"
+    if [ -f $BASE_DIR/scripts/crontab.$NTFK_HOST.$NTFK_USER.todo.data ]; then
+      ssh -f $NTFK_USER@$NTFK_HOST sh ~$NTFK_USER/scripts/update_crontab.todo ~$NTFK_USER/scripts/crontab.$NTFK_HOST.$NTFK_USER.todo.data
+    elif [ -f $BASE_DIR/scripts/crontab.$NTFK_USER.$NTFK_USER.todo.data ]; then
+      ssh -f $NTFK_USER@$NTFK_HOST sh ~$NTFK_USER/scripts/update_crontab.todo ~$NTFK_USER/scripts/crontab.$NTFK_USER.$NTFK_USER.todo.data
+    fi
+    if [ -f $BASE_DIR/scripts/crontab.$NTFK_HOST.root.todo.data ]; then
+      ssh -f root@$NTFK_HOST sh ~$NTFK_USER/scripts/update_crontab.todo ~$NTFK_USER/scripts/crontab.$NTFK_HOST.root.todo.data
+    elif [ -f $BASE_DIR/scripts/crontab.$NTFK_USER.root.todo.data ]; then
+      ssh -f root@$NTFK_HOST sh ~$NTFK_USER/scripts/update_crontab.todo ~$NTFK_USER/scripts/crontab.$NTFK_USER.root.todo.data
+    fi
+  fi
+
+  # update rsyslog
+  if [ $UPDATE_RSYSLOG -eq 1 ]; then
+    echo "$NTFK_HOST: Updating rsyslog"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/update_rsyslog.todo
+  fi
+
+  # upload networking files
+  if [ $SCP_NETWORKING -eq 1 ]; then
+    echo "$NTFK_HOST: Uploading networking files"
+    scp -v $BASE_DIR/files/etc/network/interfaces root@$NTFK_HOST:/etc/network
+    scp -v $BASE_DIR/files/etc/wpa_supplicant/wpa_supplicant.conf root@$NTFK_HOST:/etc/wpa_supplicant
+    scp -v $BASE_DIR/files/etc/dnsmasq.conf root@$NTFK_HOST:/etc
+    scp -v $BASE_DIR/files/etc/ntp.conf root@$NTFK_HOST:/etc
+    scp -v $BASE_DIR/files/etc/apt/apt.conf.d/00basfproxy root@$NTFK_HOST:/etc/apt/apt.conf.d
+    scp -v $BASE_DIR/files/etc/environment root@$NTFK_HOST:/etc
+  fi
+
+  # restart networking
+  if [ $RESTART_NETWORKING -eq 1 ]; then
+    echo "$NTFK_HOST: Restarting networking"
+    ssh -f root@$NTFK_HOST service networking restart &
+  fi
+
+  # set boot runlevel
+  if [ $SET_RUNLEVEL -eq 1 ]; then
+    echo "$NTFK_HOST: set runlevel"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/set_runlevel.todo
+  fi
+
+  # run current address
+  if [ $EXEC_CURRENT_ADDR -eq 1 ]; then
+    echo "$NTFK_HOST: Running current address script"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/current_address.todo
+  fi
+    
+  # udev_rules_75
+  if [ $UPDATE_UDEV_RULES -eq 1 ]; then
+    echo "$NTFK_HOST: Updating udev rules"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/udev_rules_75.todo
+  fi
+  
+  # reboot
+  if [ $REBOOT -eq 1 ]; then
+    echo "$NTFK_HOST: rebooting"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/reboot.todo
+  fi
+fi
+  
+echo "END: $NTFK_HOST"
+
+scp -v $CURRENT_FILE $NTFK_USER@$NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

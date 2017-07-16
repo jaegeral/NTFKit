@@ -1,0 +1,45 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+# create working directories
+ssh -f $NTFK_MASTER mkdir `hostname`  > /dev/null 2>&1
+
+# create current_address file
+#netstat -an|grep :123|grep -v ':::*'|awk '{print $4}'|cut -f 1 -d ':'|sort -u|grep -v '127.0.0.1'|grep -v '0.0.0.0' > ./`hostname`.current_address.txt
+/sbin/ifconfig -a |grep "inet addr:" > ./`hostname`.current_address.txt
+echo "=============================================" >>  ./`hostname`.current_address.txt
+echo "Additional Information:" >>  ./`hostname`.current_address.txt
+echo "----------------------" >>  ./`hostname`.current_address.txt
+echo "DATE:$(date)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "UPTIME:$(uptime)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "IFCONFIG:" >>  ./`hostname`.current_address.txt
+echo "$(/sbin/ifconfig -a)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "IWCONFIG:" >>  ./`hostname`.current_address.txt
+echo "$(/sbin/iwconfig)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "ROUTING:" >>  ./`hostname`.current_address.txt
+echo "$(/bin/netstat -rn)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "PROCESSES:" >>  ./`hostname`.current_address.txt
+echo "$(sudo ps -aux)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "LSOF:" >>  ./`hostname`.current_address.txt
+echo "$(sudo lsof -i -n -P)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "ARPWATCH:" >>  ./`hostname`.current_address.txt
+echo "$(sudo ls /var/lib/arpwatch/|grep dat$|while read FILE; do echo "File: $FILE"; sudo cat /var/lib/arpwatch/$FILE; done)" >>  ./`hostname`.current_address.txt
+echo "" >>  ./`hostname`.current_address.txt
+echo "ARP:" >>  ./`hostname`.current_address.txt
+echo "$(/usr/sbin/arp -n)" >>  ./`hostname`.current_address.txt
+
+#copy current IP address file
+scp -p ./`hostname`.current_address.txt $NTFK_MASTER:current
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

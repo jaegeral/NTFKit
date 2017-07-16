@@ -1,0 +1,26 @@
+#
+# set up variables
+#CURRENT_FILE='template.todo'
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+#
+TMP_FILE=`mktemp`
+
+# Create list of running tcpdump processes
+sudo ps -aux|grep tcpdump|grep pcap|awk 'BEGIN { FS = "/pcap/" } ; { print $2 }'|cut -f 2 -d '.'> $TMP_FILE
+
+cd $NTFK_PCAP_DIR
+sudo mkdir backup
+
+ls *.pcap.??|grep -v "`cat $TMP_FILE`"|
+while read PCAP_FILE; do
+  sudo gzip $PCAP_FILE
+  sudo mv $PCAP_FILE.gz backup
+done
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

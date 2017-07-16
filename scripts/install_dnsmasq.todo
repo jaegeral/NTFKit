@@ -1,0 +1,15 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+# install dnsmasq
+sudo apt update
+sudo apt-get --install-suggests -y install dnsmasq
+scp $NTFK_MASTER:files/etc/default/dnsmasq .
+sudo cp dnsmasq /etc/default
+scp $NTFK_MASTER:files/etc/dnsmasq.conf .
+sudo cp ./dnsmasq.conf /etc
+sudo service dnsmasq restart
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

@@ -1,0 +1,21 @@
+#change hostname
+vi /etc/hostname
+
+#change ssid
+vi /etc/hostapd/hostapd.conf 
+
+#change ssh key
+rm -v /etc/ssh/ssh_host_*
+dpkg-reconfigure openssh-server
+service ssh restart
+
+#reboot
+sync; sync; reboot
+
+#install ufw
+apt update
+apt install ufw
+
+#configure ufw
+ufw allow ssh
+ufw enable

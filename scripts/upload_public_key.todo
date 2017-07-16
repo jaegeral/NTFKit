@@ -1,0 +1,12 @@
+#
+# set up variables
+#CURRENT_FILE='template.todo'
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+# upload public key
+scp ~/.ssh/id_rsa.pub $NTFK_MASTER:files/home/$NTFK_USER/.ssh/`hostname`.id_rsa.pub
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

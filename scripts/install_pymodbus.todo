@@ -1,0 +1,20 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+# install pymodbus via pip
+#pip install -U pymodbus
+
+# install pymodbus via git
+mkdir github
+cd github
+git clone git://github.com/bashwork/pymodbus.git
+cd pymodbus
+sudo python setup.py install
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

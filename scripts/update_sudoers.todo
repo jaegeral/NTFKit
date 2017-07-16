@@ -1,0 +1,14 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+# Edit groups file to add ntfk to sudo group
+sudo usermod -a -G sudo ntfk
+
+# Edit sudoers file
+sudo visudo
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

@@ -1,0 +1,14 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+# delete pcap files
+sudo mkdir -p $NTFK_PCAP_DIR/archive
+sudo killall tcpdump
+sudo rm $NTFK_PCAP_DIR/*.gz
+sudo mv $NTFK_PCAP_DIR/* $NTFK_PCAP_DIR/archive
+
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

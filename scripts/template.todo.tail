@@ -1,0 +1,1 @@
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

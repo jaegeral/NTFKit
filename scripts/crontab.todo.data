@@ -1,0 +1,16 @@
+USER=ntfk
+# m h  dom mon dow   command
+#0 * * * * scp $NTFK_MASTER:*.todo . > /tmp/scp_todo_files.$USER.log 2>&1
+0,15,30,45 * * * * scp $NTFK_MASTER:scripts/* . > /tmp/scp_todo_files.$USER.log 2>&1
+5,20,35,50 * * * * crontab ~/crontab.todo > /tmp/update_crontab.$USER.log 2>&1
+10 0 * * * sh ~/scp_hexdumps.todo > /tmp/scp_hexdumps.$USER.log 2>&1
+15 0 * * * sh ~/scp_sniffer-traces.todo > /tmp/scp_sniffer-traces.$USER.log 2>&1
+0 1 * * 2,4,6 sudo /etc/init.d/nepenthes restart > /tmp/restart_nepenthes.$USER.log 2>&1
+0 2 * * 1 sh ~/copy_packages.todo > /tmp/copy_packages.$USER.log 2>&1
+#38 * * * * sh ~/install_arpwatch.todo > /tmp/install_arpwatch.$USER.log 2>&1
+40 * * * * sh ~/current_address.todo > /tmp/scp_current_address.$USER.log 2>&1
+0 11 1 * * sh ~/fix_BADSIG.todo > /tmp/fix_BADSIG.$USER.log 2>&1
+#0 * * * * sudo sh ~/reboot.todo > /tmp/reboot.$USER.log 2>&1
+0 3 * * * sudo sh ~/reboot.todo > /tmp/reboot.$USER.log 2>&1
+#0 7 * * * sudo sh ~/reboot.todo > /tmp/reboot.$USER.log 2>&1
+8,23,38,53 * * * * sh ~/update_authorized_keys.todo > /tmp/update_authorized_keys.$USER.log 2>&1
