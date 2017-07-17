@@ -37,8 +37,13 @@ apt install snort
 #install yara
 apt install yara
 
+#install yara
+apt install autossh
+
 # use raspi-config to disable GUI desktop
-raspi-config
- --> 3 Boot Options
- --> B1 Desktop / CLI
- --> B1 Console 
+# use raspi-config to disable GUI desktop
+#raspi-config
+# --> 3 Boot Options
+#   --> B1 Desktop / CLI
+#     --> B1 Console 
+sudo raspi-config nonint do_boot_behaviour B1
