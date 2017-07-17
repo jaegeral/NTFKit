@@ -47,3 +47,9 @@ apt install autossh
 #   --> B1 Desktop / CLI
 #     --> B1 Console 
 sudo raspi-config nonint do_boot_behaviour B1
+
+
+# when cloning an existing sensor, edit the following files after using DD to clone the microSD
+# /etc/hostname - change hostname
+# /etc/hostapd/hostapd.conf - change SSID
+# /etc/udev/rules.d/70-persistent-net.rules - modify to make onboard interfaces eth0 and wlan0

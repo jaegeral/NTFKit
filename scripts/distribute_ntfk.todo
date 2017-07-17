@@ -3,7 +3,8 @@
 CURRENT_FILE=$0
 echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
 
-BASE_DIR=~/backups/ntfk0000
+#BASE_DIR=~/backups/ntfk0000
+BASE_DIR=~/NTFKit
 . $BASE_DIR/files/etc/ntfk.conf
 
 GENERATE_KEYS=0 # does not work
@@ -15,7 +16,7 @@ UPDATE_SUDOERS=0
 UPDATE_RSYSLOG=0
 UPDATE_UDEV_RULES=0
 CREATE_USERS=0
-CREATE_DIRS=0
+CREATE_DIRS=1
 RSTNC_SCRIPTS=1
 RSYNC_FILES=1
 RSYNC_PCAP=0
