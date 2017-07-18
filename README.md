@@ -9,18 +9,18 @@ to be on data acquisition, but some effort is being made to provide other option
 ## Hardware:
 Component	| Component_Description	| Option	| Source	| Price 
 --- 		| --- 			| --- 		| --- 		| ---
-HW-001.00	| CanaKit Raspberry Pi 3 Complete Starter Kit - 32 GB Edition	| _Base	| Amazon	 | $70.00 
-HW-002.00	| TP-Link 5-Port Gigabit Ethernet Web Managed Easy Smart Switch (TL-SG105E v2.0)	| _Base	| Staples	 | $40.00 
-HW-003.00	| Cable Matters SuperSpeed USB 3.0 to RJ45 Gigabit Ethernet Network Adapter	| _Base	| Amazon	 | $15.00 
-HW-004.01	| TP-Link 150Mbps Wireless N Nano USB Adapter (TL-WN725N)	| _Base	| Staples	 | $10.00 
-HW-005.02	| Samsung 128GB USB 3.0 Flash Drive Fit (MUF-128BB/AM)	| _Base	| Amazon	 | $40.00 
-HW-006.00	| imoli Universal Travel Case (8.07 x 4.33 x 3.74 inches)	| _Base	| Amazon	 | $12.00 
-HW-007.00	| Ethernet cable	| _Base	| Staples	 | $4.00 
-HW-100.00	| Hitaltech - 22.5 mm Din Rail Enclosure For Raspberry Pi B+	| _Base	| Amazon	 | $16.00 
+HW-001.00	| CanaKit Raspberry Pi 3 Complete Starter Kit - 32 GB Edition	| Base	| Amazon	 | $70.00 
+HW-002.00	| TP-Link 5-Port Gigabit Ethernet Web Managed Easy Smart Switch (TL-SG105E v2.0)	| Base	| Staples	 | $40.00 
+HW-003.00	| Cable Matters SuperSpeed USB 3.0 to RJ45 Gigabit Ethernet Network Adapter	| Base	| Amazon	 | $15.00 
+HW-004.01	| TP-Link 150Mbps Wireless N Nano USB Adapter (TL-WN725N)	| Base	| Staples	 | $10.00 
+HW-005.02	| Samsung 128GB USB 3.0 Flash Drive Fit (MUF-128BB/AM)	| Base	| Amazon	 | $40.00 
+HW-006.01	| BUBM Gadget Organizer Case, Ultra-compact Electronics Organizer	| Base	| Amazon	 | $19.00 
+HW-007.00	| Ethernet cable	| Base	| Staples	 | $4.00 
+HW-100.00	| Hitaltech - 22.5 mm Din Rail Enclosure For Raspberry Pi B+	| Base	| Amazon	 | $16.00 
 HW-004.00	| Edimax EW-7811Un 150Mbps 11n Wi-Fi USB Adapter	| Alternate	| Amazon	 | $8.00 
 HW-005.00	| SanDisk Ultra Fit 128GB USB 3.0 Flash Drive	| Alternate	| Amazon	 | $32.00 
 HW-005.01	| PNY 128GB Elite-X Fit USB 3.0 Flash Drives	| Alternate	| Staples	 | $50.00 
-HW-006.01	| BUBM Gadget Organizer Case, Ultra-compact Electronics Organizer	| Alternate	| Amazon	 | $19.00 
+HW-006.00	| imoli Universal Travel Case (8.07 x 4.33 x 3.74 inches)	| Alternate	| Amazon	 | $12.00 
 HW-006.02	| Caseling Universal Electronics/Accessories Hard Travel Carrying Case Bag, 9.5" x 5.25" x 2.85" - Black	| Alternate	| Amazon	 | $14.00 
 HW-101.00	| AmazonBasics USB 3.0 Extension Cable - A-Male to A-Female	| Optional	| Amazon	 | $6.00 
 HW-102.00	| JBtek USB to RS485 Converter Adapter ch340T chip 64-bit Window 7 Supported (USB to RS-485 adapter)	| Optional	| Amazon	 | $7.00 
