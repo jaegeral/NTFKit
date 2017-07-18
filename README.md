@@ -28,15 +28,32 @@ HW-103.00	| JBtek® WINDOWS 8 Supported Debug Cable for Raspberry Pi USB Program
 HW-104.00	| Microflex USB to RS-485 Converter	| Optional	| Amazon	 | $98.00 
 HW-105.00	| SharkTap Gigabit Network Sniffer (Network Tap)	| Optional	| Amazon	 | $180.00 
 HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless monitor mode capabilities)	| Optional	| Staples	 | $15.00 
-
 ## Software:
   - https://github.com/pwnieexpress/raspberry_pwn
   - https://github.com/secgroundzero/warberry
   - https://github.com/sneakymonk3y/foxhound-nsm (not installed yet)
 
+## Project Phases
+### Phase 1: Industrial Communications Technical Expertise Uses
+### Phase 2: Other Technical Expertise Uses
+### Phase 3: Expand to Semi-Technical Users 
+### Phase 4: Expand to Non-Technical Users 
+### Current Status: Phase 1
+
 ## ToDo:
+- Documentation
 - make it more user-friendly
+- dynamic vlan interface 
+- arpwatch patch to enable 802.1q
+- bash auto complete for .todo extensions
+- Snort ICS signatures
+- fix wifite (low priority)
+- work on better initialization script for new deployments (open to recommendations - gitlab perhaps?)
+- documentation for creating and using a public key on windows computers (putty?)
+- create install.sh script that takes a base raspian install and converts it to a NTFKit sensor (may be difficult because we use pwnie express image)
+- Additional automated reports (see reports list)
 - incorporate more tools:
   - https://github.com/sneakymonk3y/foxhound-nsm
-- create setup script to turn a basic raspian install into a NTFKit sensor
-
+  - Cyberlens sensor
+  - Bro
+    - Bro ICS signature

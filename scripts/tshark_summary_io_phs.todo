@@ -18,7 +18,7 @@ ls *.eth1.pcap.?? |grep -v ".START."|grep -v '.arp.'|sort |
 while read PCAP_FILE; do
     echo "START: $PCAP_FILE" >> $OUTPUT_FILE
     stat $PCAP_FILE >> $OUTPUT_FILE
-    tshark -n -r $PCAP_FILE -q -z io,phy >> $OUTPUT_FILE 
+    tshark -n -r $PCAP_FILE -q -z io,phs >> $OUTPUT_FILE 
 done
 
 gzip $OUTPUT_FILE

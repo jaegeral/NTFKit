@@ -15,5 +15,6 @@ USER=ntfk
 37 1 * * * sh ~/scripts/pcap_summary_dns_queries.todo > /tmp/pcap_summary_dns_queries.$USER.log 2>&1
 #7 2 * * * sh ~/scripts/pcap_summary_conv_tcp.todo > /tmp/pcap_summary_conv_tcp.$USER.log 2>&1
 #37 2 * * * sh ~/scripts/pcap_summary_conv_udp.todo > /tmp/pcap_summary_conv_udp.$USER.log 2>&1
-7 2 * * * sh ~/scripts/tshark_summary_conv_ip.todo > /tmp/tshark_summary_conv_ip.$USER.log 2>&1
-#37 2 * * * sh ~/scripts/tshark_summary_endpoints_ip.todo > /tmp/tshark_summary_endpoints_ip.$USER.log 2>&1
+#7 2 * * * sh ~/scripts/tshark_summary_conv_ip.todo > /tmp/tshark_summary_conv_ip.$USER.log 2>&1
+7 2 * * * sh ~/scripts/tshark_summary_io_phs.todo > /tmp/tshark_summary_io_phs.$USER.log 2>&1
+37 2 * * * sh ~/scripts/tshark_summary_expert.todo > /tmp/tshark_summary_expert.$USER.log 2>&1
