@@ -7,7 +7,7 @@ echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
 . /etc/ntfk.conf 
 
 # services to disable
-DISABLE_LIST="openvpn smbd nmbd cups cups-browsed samba samba-ad-dc dhcpcd"
+DISABLE_LIST="openvpn smbd nmbd cups cups-browsed samba samba-ad-dc dhcpcd arpwatch"
 
 # disable loop
 for SERVICE_NAME in $DISABLE_LIST; do

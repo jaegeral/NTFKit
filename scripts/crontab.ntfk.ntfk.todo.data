@@ -1,12 +1,13 @@
 USER=ntfk
 # m h  dom mon dow   command
 @reboot sh ~/scripts/run_autossh.todo > /tmp/run_autossh.$USER.log 2>&1
+*/5 * * * * sh ~/scripts/run_autossh.todo > /tmp/run_autossh.$USER.log 2>&1
 0 * * * * sh ~/scripts/scp_todo_files.todo > /tmp/scp_todo_files.$USER.log 2>&1
 12 3 * * sh ~/scripts/gzip_pcap_files.todo > /tmp/gzip_pcap_files.$USER.log 2>&1
 2,17,32,47 * * * * sh ~/scripts/scp_scripts.todo > /tmp/scp_scripts.$USER.log 2>&1
 5,20,35,50 * * * * sh ~/scripts/update_crontab.todo > /tmp/update_crontab.$USER.log 2>&1
 0 2 * * 1 sh ~/scripts/copy_packages.todo > /tmp/copy_packages.$USER.log 2>&1
-10,40 * * * * sh ~/scripts/current_address.todo > /tmp/scp_current_address.$USER.log 2>&1
+10,25,40,55 * * * * sh ~/scripts/current_address.todo > /tmp/scp_current_address.$USER.log 2>&1
 51 * * * * sh ~/scripts/upload_public_key.todo > /tmp/upload_public_key.$USER.log 2>&1
 8,23,38,53 * * * * sh ~/scripts/update_authorized_keys.todo > /tmp/update_authorized_keys.$USER.log 2>&1
 7 0 * * * sh ~/scripts/pcap_summary_arp.todo > /tmp/pcap_summary_arp.$USER.log 2>&1
@@ -15,4 +16,4 @@ USER=ntfk
 #7 2 * * * sh ~/scripts/pcap_summary_conv_tcp.todo > /tmp/pcap_summary_conv_tcp.$USER.log 2>&1
 #37 2 * * * sh ~/scripts/pcap_summary_conv_udp.todo > /tmp/pcap_summary_conv_udp.$USER.log 2>&1
 7 2 * * * sh ~/scripts/tshark_summary_conv_ip.todo > /tmp/tshark_summary_conv_ip.$USER.log 2>&1
-37 2 * * * sh ~/scripts/tshark_summary_endpoints_ip.todo > /tmp/tshark_summary_endpoints_ip.$USER.log 2>&1
+#37 2 * * * sh ~/scripts/tshark_summary_endpoints_ip.todo > /tmp/tshark_summary_endpoints_ip.$USER.log 2>&1

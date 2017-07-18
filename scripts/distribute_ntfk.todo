@@ -16,7 +16,7 @@ UPDATE_SUDOERS=0
 UPDATE_RSYSLOG=0
 UPDATE_UDEV_RULES=0
 CREATE_USERS=0
-CREATE_DIRS=1
+CREATE_DIRS=0
 RSTNC_SCRIPTS=1
 RSYNC_FILES=1
 RSYNC_PCAP=0
@@ -192,6 +192,7 @@ if [ $NTFK_SENSOR -eq 1 ]; then
     echo "$NTFK_HOST: Uploading networking files"
     scp -v $BASE_DIR/files/etc/network/interfaces root@$NTFK_HOST:/etc/network
     scp -v $BASE_DIR/files/etc/wpa_supplicant/wpa_supplicant.conf root@$NTFK_HOST:/etc/wpa_supplicant
+    scp -v $BASE_DIR/files/etc/wpa_supplicant/functions.sh root@$NTFK_HOST:/etc/wpa_supplicant
     scp -v $BASE_DIR/files/etc/dnsmasq.conf root@$NTFK_HOST:/etc
     scp -v $BASE_DIR/files/etc/ntp.conf root@$NTFK_HOST:/etc
     scp -v $BASE_DIR/files/etc/apt/apt.conf.d/00basfproxy root@$NTFK_HOST:/etc/apt/apt.conf.d

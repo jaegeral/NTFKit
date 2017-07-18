@@ -7,7 +7,7 @@ echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
 
 #
 #autossh -2NR $NTFK_SSH_RPORT:localhost:22 $NTFK_MASTER &
-autossh -2NR $NTFK_SSH_RPORT:localhost:22 $NTFK_MASTER -M 0 -o ServerAliveInterval=60 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes &
+autossh -2NR $NTFK_SSH_RPORT:localhost:22 $NTFK_MASTER -o ExitOnForwardFailure=yes &
 
 cd
 scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

@@ -983,6 +983,8 @@ ifdown () {
 
 	/sbin/ifdown -v "$WPA_IFACE"
 
+	sleep 1
+
 	ifupdown_unlock
 
 	wpa_msg log "removing sendsigs omission pidfile: $WPA_SUP_OMIT_PIDFILE"
