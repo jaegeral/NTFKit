@@ -25,9 +25,9 @@ HW-006.02	| Caseling Universal Electronics/Accessories Hard Travel Carrying Case
 HW-101.00	| AmazonBasics USB 3.0 Extension Cable - A-Male to A-Female	| Optional	| Amazon	 | $6.00 
 HW-102.00	| JBtek USB to RS485 Converter Adapter ch340T chip 64-bit Window 7 Supported (USB to RS-485 adapter)	| Optional	| Amazon	 | $7.00 
 HW-103.00	| JBtek® WINDOWS 8 Supported Debug Cable for Raspberry Pi USB Programming USB to TTL Serial Cable (USB to RS-232 adapter)	| Optional	| Amazon	 | $7.00 
-HW-104.00	Microflex USB to RS-485 Converter	| Optional	| Amazon	 | $98.00 
-HW-105.00	SharkTap Gigabit Network Sniffer (Network Tap)	| Optional	| Amazon	 | $180.00 
-HW-106.00	TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless monitor mode capabilities)	| Optional	| Staples	 | $15.00 
+HW-104.00	| Microflex USB to RS-485 Converter	| Optional	| Amazon	 | $98.00 
+HW-105.00	| SharkTap Gigabit Network Sniffer (Network Tap)	| Optional	| Amazon	 | $180.00 
+HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless monitor mode capabilities)	| Optional	| Staples	 | $15.00 
 
 ## Software:
   - https://github.com/pwnieexpress/raspberry_pwn
