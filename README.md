@@ -9,7 +9,7 @@ As with any software application, downloads/transfers of this software is subjec
 
 ----------------------------------------------
 
-## Summary:
+## Summary
 This project was started to extend the capability of a small internal group to support individuals with diverse backgrounds.  The initial focus was
 to gather data (especially packet captures) for offline analysis and baselining.  The project is growing, but the development is slow.  The focus continues
 to be on data acquisition, but some effort is being made to provide other options and capabilities.
@@ -59,7 +59,7 @@ Installation Steps
 
 ----------------------------------------------
 
-## Hardware:
+## Hardware
 Component	| Component_Description	| Option	| Source	| Price
 --- 		| --- 			| --- 		| --- 		| ---
 HW-001.00	| CanaKit Raspberry Pi 3 Complete Starter Kit - 32 GB Edition	| Base	| Amazon	 | $70.00
@@ -84,14 +84,14 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
 
 ----------------------------------------------
 
-## Software:
+## Software
   - https://github.com/pwnieexpress/raspberry_pwn
   - https://github.com/secgroundzero/warberry
   - https://github.com/sneakymonk3y/foxhound-nsm (not installed yet)
 
 ----------------------------------------------
 
-## ToDo:
+## ToDo
 - Documentation
 - make it more user-friendly
 - dynamic vlan interface
