@@ -1,5 +1,14 @@
 # NTFKit - Network Troubleshooting Field Kit
----
+----------------------------------------------
+Legal Stuff
+----------------------------------------------
+
+This software is provided free of charge under the GNU Public License (http://www.gnu.org/licenses/gpl.html).
+
+As with any software application, downloads/transfers of this software is subject to export controls under the U.S. Commerce Department's Export Administration Regulations (EAR). By using this software you certify your complete understanding of and compliance with these regulations.
+
+----------------------------------------------
+
 ## Summary:
 This project was started to extend the capability of a small internal group to support individuals with diverse backgrounds.  The initial focus was
 to gather data (especially packet captures) for offline analysis and baselining.  The project is growing, but the development is slow.  The focus continues
