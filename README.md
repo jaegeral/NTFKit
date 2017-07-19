@@ -1,5 +1,4 @@
-# NTFKit
-Network Troubleshooting Field Kit
+# NTFKit - Network Troubleshooting Field Kit
 ---
 ## Summary:
 This project was started to extend the capability of a small internal group to support individuals with diverse backgrounds.  The initial focus was
@@ -46,8 +45,6 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
 ### Phase 5
   Target Audience: Non-Technical
 ### Current Status: Phase 1
----
-
 ---
 ## ToDo:
 - Documentation
