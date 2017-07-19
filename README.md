@@ -14,7 +14,6 @@ This project was started to extend the capability of a small internal group to s
 to gather data (especially packet captures) for offline analysis and baselining.  The project is growing, but the development is slow.  The focus continues
 to be on data acquisition, but some effort is being made to provide other options and capabilities.
 
-----------------------------------------------
 
 ----------------------------------------------
 Important
@@ -37,8 +36,9 @@ Installation Steps
 ----------------------------------------------
 
 1. Follow the steps on http://www.raspberrypi.org/downloads to image your SD card. Don't forget to perform, at least, the following steps through the post-installation wizard :
-  1. extend the root partition to utilize the whole SD card.
-  2. enable the SSH server
+2. extend the root partition to utilize the whole SD card.
+3. enable the SSH server
+4. [more to come...]
 
 ----------------------------------------------
 
@@ -53,6 +53,8 @@ Installation Steps
   Target Audience: Technical with no Networking or Linux Expertise
 ### Phase 5
   Target Audience: Non-Technical
+
+
 ### Current Status: Phase 1
 
 ----------------------------------------------
