@@ -1,8 +1,7 @@
 # NTFKit - Network Troubleshooting Field Kit
 ----------------------------------------------
-Legal Stuff
-----------------------------------------------
 
+## Legal Stuff
 This software is provided free of charge under the GNU Public License (http://www.gnu.org/licenses/gpl.html).
 
 As with any software application, downloads/transfers of this software is subject to export controls under the U.S. Commerce Department's Export Administration Regulations (EAR). By using this software you certify your complete understanding of and compliance with these regulations.
@@ -16,14 +15,13 @@ to be on data acquisition, but some effort is being made to provide other option
 
 
 ----------------------------------------------
-Important
-----------------------------------------------
+
+## Important
 * NTFKit is built on DEBIAN - not RASPBIAN - and has not been tested on RASPBIAN images!!
 
 ----------------------------------------------
-What you will need
-----------------------------------------------
 
+## What you will need
 1. A stock Raspberry Pi board (http://www.raspberrypi.org/)
 2. The Debian (not Raspbian) Raspberry Pi distribution. The Debian build is regularly updated,
    so look at http://www.raspberrypi.org/downloads for the latest download.
@@ -32,9 +30,8 @@ What you will need
 5. Internet access from the Raspberry Pi
 
 ----------------------------------------------
-Installation Steps
-----------------------------------------------
 
+## Installation Steps
 1. Follow the steps on http://www.raspberrypi.org/downloads to image your SD card. Don't forget to perform, at least, the following steps through the post-installation wizard :
 2. extend the root partition to utilize the whole SD card.
 3. enable the SSH server
@@ -101,7 +98,7 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
 - fix wifite (low priority)
 - work on better initialization script for new deployments (open to recommendations - gitlab perhaps?)
 - documentation for creating and using a public key on windows computers (putty?)
-- create install.sh script that takes a base raspian install and converts it to a NTFKit sensor (may be difficult because we use pwnie express image)
+- create install.sh script that takes a base raspberry pi install and converts it to a NTFKit sensor (may be difficult because we use pwnie express image)
 - Additional automated reports (see reports list)
 - incorporate more tools:
   - https://github.com/sneakymonk3y/foxhound-nsm
