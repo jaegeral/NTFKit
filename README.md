@@ -13,7 +13,50 @@ As with any software application, downloads/transfers of this software is subjec
 This project was started to extend the capability of a small internal group to support individuals with diverse backgrounds.  The initial focus was
 to gather data (especially packet captures) for offline analysis and baselining.  The project is growing, but the development is slow.  The focus continues
 to be on data acquisition, but some effort is being made to provide other options and capabilities.
----
+
+----------------------------------------------
+
+----------------------------------------------
+Important
+----------------------------------------------
+* NTFKit is built on DEBIAN - not RASPBIAN - and has not been tested on RASPBIAN images!!
+
+----------------------------------------------
+What you will need
+----------------------------------------------
+
+1. A stock Raspberry Pi board (http://www.raspberrypi.org/)
+2. The Debian (not Raspbian) Raspberry Pi distribution. The Debian build is regularly updated,
+   so look at http://www.raspberrypi.org/downloads for the latest download.
+3. An SD card of at least 32GB in size
+4. SSH/console access to the Raspberry Pi
+5. Internet access from the Raspberry Pi
+
+----------------------------------------------
+Installation Steps
+----------------------------------------------
+
+1. Follow the steps on http://www.raspberrypi.org/downloads to image your SD card. Don't forget to perform, at least, the following steps through the post-installation wizard :
+  1. extend the root partition to utilize the whole SD card.
+  2. enable the SSH server
+
+----------------------------------------------
+
+## Project Phases
+### Phase 1
+  Target Audience: Technical with Networking and Linux Expertise
+### Phase 2
+  Target Audience: Technical with some Networking limited Linux Expertise
+### Phase 3
+  Target Audience: Technical with limited Networking and limited Linux Expertise
+### Phase 4
+  Target Audience: Technical with no Networking or Linux Expertise
+### Phase 5
+  Target Audience: Non-Technical
+### Current Status: Phase 1
+
+----------------------------------------------
+
 ## Hardware:
 Component	| Component_Description	| Option	| Source	| Price
 --- 		| --- 			| --- 		| --- 		| ---
@@ -36,25 +79,16 @@ HW-103.00	| JBtek® WINDOWS 8 Supported Debug Cable for Raspberry Pi USB Program
 HW-104.00	| Microflex USB to RS-485 Converter	| Optional	| Amazon	 | $98.00
 HW-105.00	| SharkTap Gigabit Network Sniffer (Network Tap)	| Optional	| Amazon	 | $180.00
 HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless monitor mode capabilities)	| Optional	| Staples	 | $15.00
----
+
+----------------------------------------------
+
 ## Software:
   - https://github.com/pwnieexpress/raspberry_pwn
   - https://github.com/secgroundzero/warberry
   - https://github.com/sneakymonk3y/foxhound-nsm (not installed yet)
----
-## Project Phases
-### Phase 1
-  Target Audience: Technical with Networking and Linux Expertise
-### Phase 2
-  Target Audience: Technical with some Networking limited Linux Expertise
-### Phase 3
-  Target Audience: Technical with limited Networking and limited Linux Expertise
-### Phase 4
-  Target Audience: Technical with no Networking or Linux Expertise
-### Phase 5
-  Target Audience: Non-Technical
-### Current Status: Phase 1
----
+
+----------------------------------------------
+
 ## ToDo:
 - Documentation
 - make it more user-friendly
@@ -72,4 +106,5 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
   - Cyberlens sensor
   - Bro
     - Bro ICS signature
----
+
+----------------------------------------------
