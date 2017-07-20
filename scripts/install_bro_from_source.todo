@@ -1,0 +1,69 @@
+#
+# Copied from https://github.com/sneakymonk3y/foxhound-nsm.git and modified to meet our requirements
+#
+# NOTE: Needs to be run via bash instead of sh
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+echo  "Creating directories"
+sudo mkdir -p /nsm
+sudo mkdir -p /nsm/pcap/
+sudo mkdir -p /nsm/scripts/
+sudo mkdir -p /nsm/bro/
+sudo mkdir -p /nsm/bro/extracted/
+if [ ! -d /opt ]; then
+	sudo mkdir -p /opt
+fi
+
+function install_packages()
+{
+echo "Installing Required .debs"
+sudo apt-get update && sudo apt-get -y install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev htop vim libgeoip-dev ethtool git tshark tcpdump nmap python-pip autoconf libtool
+
+	if [ $? -ne 0 ]; then
+		echo "Error. Please check that apt-get can install needed packages."
+		exit 2;
+	fi
+}
+
+function config_net_ipv6()
+{
+echo "Disabling IPv6"
+	echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+	sed -i '1 s/$/ ipv6.disable_ipv6=1/' /boot/cmdline.txt
+	sysctl -p
+}
+
+function install_bro()
+{
+echo "Installing Bro"
+	cd /opt
+		wget  https://www.bro.org/downloads/release/bro-2.4.1.tar.gz
+		tar -xzf bro-2.4.1.tar.gz
+	cd bro-2.4.1
+		./configure --localstatedir=/nsm/bro/
+		make -j 4
+		sudo make install
+	echo "Setting Bro variables"
+	sudo echo "export PATH=/usr/local/bro/bin:$PATH" >> /etc/profile
+	source ~/.bashrc
+}
+
+install_packages
+install_bro
+
+#CRON JOBS
+echo "0-59/5 * * * * root /usr/local/bro/bin/broctl cron" >> /etc/crontab
+echo "0-59/5 * * * * root /nsm/scripts/cleanup" >> /etc/crontab
+echo "00 7/19 * * *  root /nsm/scripts/update" >> /etc/crontab
+#echo "0-59/5 * * * * root python /nsm/scripts/scan" >> /etc/crontab
+
+echo "Please reboot"
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

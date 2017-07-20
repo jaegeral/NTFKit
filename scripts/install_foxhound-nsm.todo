@@ -1,0 +1,239 @@
+#
+# Copied from https://github.com/sneakymonk3y/foxhound-nsm.git and modified to meet our requirements
+#
+# NOTE: Needs to be run via bash instead of sh
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf
+
+echo  "Creating directories"
+mkdir -p $NTFK_BASE/nsm
+mkdir -p $NTFK_BASE/nsm/pcap/
+mkdir -p $NTFK_BASE/nsm/scripts/
+mkdir -p $NTFK_BASE/nsm/bro/
+mkdir -p $NTFK_BASE/nsm/bro/extracted/
+sudo ln -s $NTFK_BASE/nsm /
+if [ ! -d $NTFK_DOWNLOAD ]; then
+	sudo mkdir -p $NTFK_DOWNLOAD
+fi
+
+function install_packages()
+{
+echo "Installing Required .debs"
+#apt-get update && apt-get -y install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev ssmtp htop vim libgeoip-dev ethtool git tshark tcpdump nmap mailutils python-pip autoconf libtool
+sudo apt-get update && sudo apt-get -y install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev htop vim libgeoip-dev ethtool git tshark tcpdump nmap python-pip autoconf libtool
+
+	if [ $? -ne 0 ]; then
+		echo "Error. Please check that apt-get can install needed packages."
+		exit 2;
+	fi
+}
+
+function install_geoip()
+{
+echo "Installing GEO-IP"
+	wget  http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+	wget  http://geolite.maxmind.com/download/geoip/database/GeoLiteCityv6-beta/GeoLiteCityv6.dat.gz
+	gunzip GeoLiteCity.dat.gz
+	gunzip GeoLiteCityv6.dat.gz
+	mv GeoLiteCity* /usr/share/GeoIP/
+	ln -s /usr/share/GeoIP/GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
+	ln -s /usr/share/GeoIP/GeoLiteCityv6.dat /usr/share/GeoIP/GeoIPCityv6.dat
+}
+
+function config_net_ipv6()
+{
+echo "Disabling IPv6"
+	echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+	sed -i '1 s/$/ ipv6.disable_ipv6=1/' /boot/cmdline.txt
+	sysctl -p
+}
+
+function config_net_opts()
+{
+echo "Configuring network options"
+	sudo cp ~/etc/network/if-up.d/interface-tuneup /etc/network/if-up.d/interface-tuneup
+	sudo chmod +x /etc/network/if-up.d/interface-tuneup
+	sudo ifconfig eth1 down && ifconfig eth1 up
+}
+
+function install_netsniff()
+{
+echo "Installing Netsniff-NG PCAP"
+	touch /etc/netsniff
+	git clone  https://github.com/netsniff-ng/netsniff-ng.git $NTFK_DOWNLOAD/netsniff-ng
+	cd $NTFK_DOWNLOAD/netsniff-ng
+	./configure && make && make install
+	cd $_scriptDir
+	mv cleanup.sh /nsm/scripts/cleanup
+	chmod +x /nsm/scripts/cleanup
+}
+
+function create_service_netsniff()
+{
+echo "Creating Netsniff-NG service"
+echo "[Unit]
+Description=Netsniff-NG PCAP
+After=network.target
+
+[Service]
+ExecStart=/usr/local/sbin/netsniff-ng --in eth1 --out /nsm/pcap/ --bind-cpu 3 -s --interval 100MiB
+Type=simple
+EnvironmentFile=-/etc/netsniff
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/netsniff-ng.service
+	systemctl enable netsniff-ng
+	systemctl daemon-reload
+	service netsniff-ng start
+}
+
+function config_ssmtp()
+{
+echo "Configuring SSMTP"
+echo "
+root=$notification
+mailhub=$smtp_server:587
+hostname=foxhound
+FromLineOverride=YES
+UseTLS=NO
+UseSTARTTLS=YES
+AuthUser=$smtp_user
+AuthPass=$smtp_pass" \ > /etc/ssmtp/ssmtp.conf
+}
+
+
+function install_loki()
+{
+echo "Installing YARA packages"
+	echo "Installing Pylzma"
+		cd $NTFK_DOWNLOAD
+		wget  https://pypi.python.org/packages/fe/33/9fa773d6f2f11d95f24e590190220e23badfea3725ed71d78908fbfd4a14/pylzma-0.4.8.tar.gz
+		tar -zxvf pylzma-0.4.8.tar.gz
+		cd pylzma-0.4.8/
+		python ez_setup.py
+		python setup.py
+	echo "Installing YARA"
+		git clone  https://github.com/VirusTotal/yara.git $NTFK_DOWNLOAD/yara
+		cd $NTFK_DOWNLOAD/yara
+		./bootstrap.sh
+		./configure
+		make && make install
+	echo "Installing PIP LOKI Packages"
+		pip install psutil
+		pip install yara-python
+		pip install gitpython
+		pip install pylzma
+		pip install netaddr
+	echo "Installing LOKI"
+		git clone  https://github.com/Neo23x0/Loki.git /nsm/Loki
+		git clone  https://github.com/Neo23x0/signature-base.git /nsm/Loki/signature-base/
+		echo "export PATH=/nsm/Loki:$PATH" >> /etc/profile
+		chmod +x /nsm/Loki/loki.py
+echo "
+#!/bin/sh
+/usr/bin/python /nsm/Loki/loki.py --noprocscan --dontwait --onlyrelevant -p /nsm/bro/extracted -l /nsm/Loki/log
+" \ > /nsm/scripts/scan
+chmod +x /nsm/scripts/scan
+}
+
+function install_bro()
+{
+echo "Installing Bro"
+	cd $NTFK_DOWNLOAD
+		wget  https://www.bro.org/downloads/release/bro-2.4.1.tar.gz
+		tar -xzf bro-2.4.1.tar.gz
+	cd bro-2.4.1
+		./configure --localstatedir=/nsm/bro/
+		make -j 4
+		sudo make install
+	echo "Setting Bro variables"
+	sudo echo "export PATH=/usr/local/bro/bin:$PATH" >> /etc/profile
+	source ~/.bashrc
+}
+
+function install_criticalstack()
+{
+echo "Installing Critical Stack Agent"
+		wget  http://intel.criticalstack.com/client/critical-stack-intel-arm.deb
+		dpkg -i critical-stack-intel-arm.deb
+		sudo -u critical-stack critical-stack-intel api $api
+		rm critical-stack-intel-arm.deb
+		sudo -u critical-stack critical-stack-intel list
+		sudo -u critical-stack critical-stack-intel pull
+		#Deploy and start BroIDS
+		export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/bro/bin:\$PATH"
+	echo "Deploying and starting BroIDS"
+		broctl deploy
+		broctl cron enable
+		#Create update script
+echo "
+echo \"#### Pulling feed update ####\"
+sudo -u critical-stack critical-stack-intel pull
+echo \"#### Applying the updates to the bro config ####\"
+broctl check
+broctl install
+echo \"#### Restarting bro ####\"
+broctl restart
+python /nsm/Loki/loki.py --update
+" \ > /nsm/scripts/update
+		sudo chmod +x /nsm/scripts/update
+}
+
+function install_bro_reporting()
+{
+echo "Bro Reporting Requirements"
+#PYSUBNETREE
+	cd $NTFK_DOWNLOAD
+	git clone  git://git.bro-ids.org/pysubnettree.git
+	cd pysubnettree/
+	python setup.py install
+#IPSUMDUMP
+	cd $NTFK_DOWNLOAD
+	wget http://www.read.seas.harvard.edu/~kohler/ipsumdump/ipsumdump-1.85.tar.gz
+	tar -zxvf ipsumdump-1.85.tar.gz
+	cd ipsumdump-1.85/
+	./configure && make && make install
+}
+
+function config_bro_scripts()
+{
+echo "Configuring BRO scripts"
+	#PULL BRO SCRIPTS
+	cd /usr/local/bro/share/bro/site/
+	if [ ! -d /usr/local/bro/share/bro/site/bro-scripts/ ]; then
+		rm -rf /usr/local/bro/share/bro/site/bro-scripts/
+	fi
+	git clone https://github.com/sneakymonk3y/bro-scripts.git
+	echo "@load bro-scripts/geoip"  >> /usr/local/bro/share/bro/site/local.bro
+	echo "@load bro-scripts/extract"  >> /usr/local/bro/share/bro/site/local.bro
+	broctl deploy
+}
+
+#install_geoip
+install_packages
+#config_net_ipv6
+#config_net_opts
+#install_netsniff
+#create_service_netsniff
+#config_ssmtp
+#install_loki
+install_bro
+#install_criticalstack
+#install_bro_reporting
+#config_bro_scripts
+
+#CRON JOBS
+echo "0-59/5 * * * * root /usr/local/bro/bin/broctl cron" >> /etc/crontab
+echo "0-59/5 * * * * root /nsm/scripts/cleanup" >> /etc/crontab
+echo "00 7/19 * * *  root /nsm/scripts/update" >> /etc/crontab
+#echo "0-59/5 * * * * root python /nsm/scripts/scan" >> /etc/crontab
+
+echo "Please reboot"
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"

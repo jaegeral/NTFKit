@@ -28,7 +28,7 @@ iface wlan0 inet static
   address 192.168.255.1
   netmask 255.255.255.0
   up iptables-restore < /etc/iptables.ipv4.nat
-  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan0 >> /var/log/start_tcpdump_wlan0_arp_stp.log
+#  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan0 >> /var/log/start_tcpdump_wlan0_arp_stp.log
   post-down /usr/bin/pgrep -f wlan0|/usr/bin/xargs kill 
 
 auto wlan1
@@ -36,7 +36,7 @@ iface wlan1 inet manual
   wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
   iface default inet dhcp
   up iptables-restore < /etc/iptables.ipv4.nat
-  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan1 >> /var/log/start_tcpdump_wlan1_arp_stp.log
+#  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan1 >> /var/log/start_tcpdump_wlan1_arp_stp.log
 #  post-up /bin/sh /home/ntfk/scripts/current_address.todo >> /var/log/current_address.log
   post-down /usr/bin/pgrep -f wlan1|/usr/bin/xargs kill 
 
@@ -45,6 +45,6 @@ iface wlan2 inet manual
   wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
   iface default inet dhcp
   up iptables-restore < /etc/iptables.ipv4.nat
-  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan2 >> /var/log/start_tcpdump_wlan2_arp_stp.log
+#  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan2 >> /var/log/start_tcpdump_wlan2_arp_stp.log
   post-down /usr/bin/pgrep -f wlan2|/usr/bin/xargs kill 
 

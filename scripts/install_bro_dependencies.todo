@@ -7,7 +7,8 @@ echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
 
 # install bro dependencies
 sudo apt-get update
-sudo apt-get --install-suggests -y install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev ssmtp htop vim libgeoip-dev ethtool git tshark tcpdump nmap mailutils python-pip autoconf libtool
+#sudo apt-get --install-suggests -y install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev ssmtp htop vim libgeoip-dev ethtool git tshark tcpdump nmap mailutils python-pip autoconf libtool
+sudo apt-get -y install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev htop vim libgeoip-dev ethtool git tshark tcpdump nmap python-pip autoconf libtool
 
 cd
 scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`

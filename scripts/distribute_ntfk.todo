@@ -9,9 +9,13 @@ BASE_DIR=~/NTFKit
 
 GENERATE_KEYS=0 # does not work
 SCP_CONF=1
-SCP_KEYS=1
-SCP_NETWORKING=0
+SCP_KEYS=0
+SCP_NETWORKING=1
 SCP_SNORT=0
+SCP_FSTAB=0
+SCP_CRONTAB=1
+SCP_PROFILE=1
+SCP_BRO_NODE=1
 UPDATE_SUDOERS=0
 UPDATE_RSYSLOG=0
 UPDATE_UDEV_RULES=0
@@ -111,8 +115,32 @@ fi
 
 # rsync snort
 if [ $SCP_SNORT -eq 1 ]; then
-  echo "$NTFK_HOST: Rsync files"
+  echo "$NTFK_HOST: Rsync snort files"
   scp -vr $BASE_DIR/files/etc/snort root@$NTFK_HOST:/etc
+fi
+
+# scp fstab
+if [ $SCP_FSTAB -eq 1 ]; then
+  echo "$NTFK_HOST: scp fstab"
+  scp -vr $BASE_DIR/files/etc/fstab root@$NTFK_HOST:/etc
+fi
+
+# scp crontab
+if [ $SCP_CRONTAB -eq 1 ]; then
+  echo "$NTFK_HOST: scp fstab"
+  scp -vr $BASE_DIR/files/etc/crontab root@$NTFK_HOST:/etc
+fi
+
+# scp profile
+if [ $SCP_PROFILE -eq 1 ]; then
+  echo "$NTFK_HOST: scp fstab"
+  scp -vr $BASE_DIR/files/etc/profile root@$NTFK_HOST:/etc
+fi
+
+# scp bro node.cfg
+if [ $SCP_PROFILE -eq 1 ]; then
+  echo "$NTFK_HOST: scp bro node.cfg"
+  scp -vr $BASE_DIR/files/usr/local/bro/etc/node.cfg root@$NTFK_HOST:/usr/local/bro/etc
 fi
 
 # disable unused services
@@ -230,6 +258,11 @@ if [ $NTFK_SENSOR -eq 1 ]; then
   fi
 fi
   
+#Only perform the rest on server, NOT sensor
+if [ $NTFK_SERVER -eq 1 ]; then
+  rsync -vrlpaP $BASE_DIR/archive $NTFK_USER@$NTFK_HOST:.
+fi
+
 echo "END: $NTFK_HOST"
 
 scp -v $CURRENT_FILE $NTFK_USER@$NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
