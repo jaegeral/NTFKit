@@ -93,7 +93,6 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
 - make it more user-friendly
 - dynamic vlan interface
 - arpwatch patch to enable 802.1q
-- bash auto complete for .todo extensions
 - Snort ICS signatures
 - fix wifite (low priority)
 - work on better initialization script for new deployments (open to recommendations - gitlab perhaps?)
@@ -103,7 +102,5 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
 - incorporate more tools:
   - https://github.com/sneakymonk3y/foxhound-nsm
   - Cyberlens sensor
-  - Bro
-    - Bro ICS signature
 
 ----------------------------------------------

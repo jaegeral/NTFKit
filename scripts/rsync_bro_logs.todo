@@ -1,0 +1,18 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+# create working directories
+ssh -f $NTFK_MASTER mkdir -p `hostname`/bro/logs > /dev/null 2>&1
+
+#rsync pcap files
+rsync -vr $NTFK_BRO_LOGS/* $NTFK_MASTER:`hostname`/bro/logs
+
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
