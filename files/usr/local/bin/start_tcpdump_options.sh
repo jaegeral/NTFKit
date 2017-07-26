@@ -1,6 +1,17 @@
 #!/bin/bash
 
-# start tcpdump 
+if [ -f /etc/ntfk.conf ]; then
+  . /etc/ntfk.conf
+  OUTDIR=$NTFK_PCAP_DIR
+elif [ ! -d /mnt/sda1 ]; then
+  OUTDIR=/var/log/pcap
+elif [ -f /mnt/sda1/NOT_MOUNTED ]; then
+  OUTDIR=/var/log/pcap
+else
+  OUTDIR=/mnt/sda1/pcap
+fi
+
+# start tcpdump
 
 #echo "$*"
 
@@ -18,16 +29,6 @@ then
   AND_VAR=""
 else
   AND_VAR=" and "
-fi
-
-if [ ! -d /mnt/sda1 ]
-then
-  OUTDIR=/var/log/pcap
-elif [ -f /mnt/sda1/NOT_MOUNTED ]
-then
-  OUTDIR=/var/log/pcap
-else
-  OUTDIR=/mnt/sda1/pcap
 fi
 
 if [ ! -d $OUTDIR ]

@@ -1,17 +1,27 @@
 #!/bin/sh
 
-#OUTDIR=/var/log
-OUTDIR=/mnt/sda1
+echo Script name: $0
+echo $# arguments
+
 INTERFACE=eth1
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
-FILENAME=$OUTDIR/`hostname`.$TIMESTAMP
 TCPDUMP_MONITOR=/usr/local/bin/tcpdump_monitor.sh
 FILE_COUNT=11
 
-echo Script name: $0
-echo $# arguments 
+if [ -f /etc/ntfk.conf ]; then
+  . /etc/ntfk.conf
+  OUTDIR=$NTFK_PCAP_DIR
+elif [ ! -d /mnt/sda1 ]; then
+  OUTDIR=/var/log/pcap
+elif [ -f /mnt/sda1/NOT_MOUNTED ]; then
+  OUTDIR=/var/log/pcap
+else
+  OUTDIR=/mnt/sda1/pcap
+fi
 
-if [ $# = 1 ]; 
+FILENAME=$OUTDIR/`hostname`.$TIMESTAMP
+
+if [ $# = 1 ];
 then
   INTERFACE=$1
 fi
