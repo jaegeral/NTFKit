@@ -15,7 +15,7 @@ SCP_SNORT=0
 SCP_FSTAB=0
 SCP_CRONTAB=1
 SCP_PROFILE=1
-SCP_BRO_NODE=1
+SCP_BRO_NODE=0
 UPDATE_SUDOERS=0
 UPDATE_RSYSLOG=0
 UPDATE_UDEV_RULES=0
@@ -24,6 +24,8 @@ CREATE_DIRS=0
 RSTNC_SCRIPTS=1
 RSYNC_FILES=1
 RSYNC_PCAP=0
+RSYNC_BRO_SCRIPTS=1
+RSYNC_ARCHIVE=0
 INSTALL_SNORT=0
 INSTALL_YARA=0
 SET_RUNLEVEL=0
@@ -138,9 +140,15 @@ if [ $SCP_PROFILE -eq 1 ]; then
 fi
 
 # scp bro node.cfg
-if [ $SCP_PROFILE -eq 1 ]; then
+if [ $SCP_BRO_NODE -eq 1 ]; then
   echo "$NTFK_HOST: scp bro node.cfg"
   scp -vr $BASE_DIR/files/usr/local/bro/etc/node.cfg root@$NTFK_HOST:/usr/local/bro/etc
+fi
+
+# rsync bro scripts
+if [ $SCP_BRO_NODE -eq 1 ]; then
+  echo "$NTFK_HOST: scp bro node.cfg"
+  rsync -vr $BASE_DIR/files/usr/local/bro/share/bro root@$NTFK_HOST:/usr/local/bro/share
 fi
 
 # disable unused services
@@ -260,7 +268,9 @@ fi
   
 #Only perform the rest on server, NOT sensor
 if [ $NTFK_SERVER -eq 1 ]; then
-  rsync -vrlpaP $BASE_DIR/archive $NTFK_USER@$NTFK_HOST:.
+  if [ $RSYNC_ARCHIVE -eq 1 ]; then
+    rsync -vrlpaP $BASE_DIR/archive $NTFK_USER@$NTFK_HOST:.
+  fi
 fi
 
 echo "END: $NTFK_HOST"

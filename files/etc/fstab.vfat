@@ -3,6 +3,5 @@ proc            /proc           proc    defaults          0       0
 /dev/mmcblk0p7  /               ext4    defaults,noatime  0       1
 # a swapfile is not a swap partition, no line here
 #   use  dphys-swapfile swap[on|off]  for that
-#/dev/sda1	/mnt/sda1	vfat	defaults
-/dev/sda1	/mnt/sda1	vfat	defaults,users,exec,uid=1002,gid=46	0	0
+/dev/sda1	/mnt/sda1	vfat	defaults,users,exec,uid=1002,gid=46,nofail	0	2
 

@@ -31,6 +31,7 @@ iface wlan0 inet static
 #  up /usr/local/bin/start_tcpdump_arp_stp.sh wlan0 >> /var/log/start_tcpdump_wlan0_arp_stp.log
   post-down /usr/bin/pgrep -f wlan0|/usr/bin/xargs kill 
 
+allow-hotplug wlan1
 auto wlan1
 iface wlan1 inet manual
   wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
