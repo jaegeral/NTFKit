@@ -28,9 +28,9 @@ touch /nsm/NOT_MOUNTED
 umount /dev/sda1
 fdisk /dev/sda
 ```
-#### --> d (delete)
-#### --> n (new)
-#### --> w (write and exit)
+ --> d (delete)
+ --> n (new)
+ --> w (write and exit)
 
 
 #### create ext4 fs
