@@ -7,6 +7,7 @@ sudo su -
 ```
 . /etc/ntfk.conf
 ```
+
 #### Stop cron
 ```
 service cron stop
@@ -54,4 +55,9 @@ mount /nsm
 #### create folder to hold downloads
 ```
 mkdir -p /nsm/download
+```
+
+#### Start cron
+```
+service cron restart
 ```
