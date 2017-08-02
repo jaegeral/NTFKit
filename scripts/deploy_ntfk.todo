@@ -9,7 +9,7 @@ BASE_DIR=~/NTFKit
 
 GENERATE_KEYS=0 # does not work
 SCP_CONF=1
-SCP_KEYS=0
+SCP_KEYS=1
 SCP_NETWORKING=1
 SCP_SNORT=0
 SCP_FSTAB=0
@@ -20,7 +20,7 @@ UPDATE_SUDOERS=0
 UPDATE_RSYSLOG=0
 UPDATE_UDEV_RULES=0
 CREATE_USERS=0
-CREATE_DIRS=0
+CREATE_DIRS=1
 RSTNC_SCRIPTS=1
 RSYNC_FILES=1
 RSYNC_PCAP=0
@@ -115,48 +115,6 @@ if [ $RSYNC_FILES -eq 1 ]; then
   rsync -vrlpaP $BASE_DIR/files/usr/local/bin/* root@$NTFK_HOST:/usr/local/bin
 fi
 
-# rsync snort
-if [ $SCP_SNORT -eq 1 ]; then
-  echo "$NTFK_HOST: Rsync snort files"
-  scp -vr $BASE_DIR/files/etc/snort root@$NTFK_HOST:/etc
-fi
-
-# scp fstab
-if [ $SCP_FSTAB -eq 1 ]; then
-  echo "$NTFK_HOST: scp fstab"
-  scp -vr $BASE_DIR/files/etc/fstab root@$NTFK_HOST:/etc
-fi
-
-# scp crontab
-if [ $SCP_CRONTAB -eq 1 ]; then
-  echo "$NTFK_HOST: scp fstab"
-  scp -vr $BASE_DIR/files/etc/crontab root@$NTFK_HOST:/etc
-fi
-
-# scp profile
-if [ $SCP_PROFILE -eq 1 ]; then
-  echo "$NTFK_HOST: scp fstab"
-  scp -vr $BASE_DIR/files/etc/profile root@$NTFK_HOST:/etc
-fi
-
-# scp bro node.cfg
-if [ $SCP_BRO_NODE -eq 1 ]; then
-  echo "$NTFK_HOST: scp bro node.cfg"
-  scp -vr $BASE_DIR/files/usr/local/bro/etc/node.cfg root@$NTFK_HOST:/usr/local/bro/etc
-fi
-
-# rsync bro scripts
-if [ $SCP_BRO_NODE -eq 1 ]; then
-  echo "$NTFK_HOST: scp bro node.cfg"
-  rsync -vr $BASE_DIR/files/usr/local/bro/share/bro root@$NTFK_HOST:/usr/local/bro/share
-fi
-
-# disable unused services
-if [ $DISABLE_SERVICES -eq 1 ]; then
-  echo "$NTFK_HOST: Disable unwanted services"
-  ssh -f $NTFK_USER@$NTFK_HOST sh scripts/disable_unwanted_services.todo
-fi
-
 #Only perform the rest on sensors, NOT master
 if [ $NTFK_SENSOR -eq 1 ]; then
   # run create_ntfk_dirs.todo script
@@ -235,6 +193,30 @@ if [ $NTFK_SENSOR -eq 1 ]; then
     scp -v $BASE_DIR/files/etc/environment root@$NTFK_HOST:/etc
   fi
 
+  # rsync snort
+  if [ $SCP_SNORT -eq 1 ]; then
+    echo "$NTFK_HOST: Rsync snort files"
+    scp -vr $BASE_DIR/files/etc/snort root@$NTFK_HOST:/etc
+  fi
+
+  # scp bro node.cfg
+  if [ $SCP_BRO_NODE -eq 1 ]; then
+    echo "$NTFK_HOST: scp bro node.cfg"
+    scp -vr $BASE_DIR/files/usr/local/bro/etc/node.cfg root@$NTFK_HOST:/usr/local/bro/etc
+  fi
+
+  # rsync bro scripts
+  if [ $SCP_BRO_NODE -eq 1 ]; then
+    echo "$NTFK_HOST: scp bro node.cfg"
+    rsync -vr $BASE_DIR/files/usr/local/bro/share/bro root@$NTFK_HOST:/usr/local/bro/share
+  fi
+
+  # disable unused services
+  if [ $DISABLE_SERVICES -eq 1 ]; then
+    echo "$NTFK_HOST: Disable unwanted services"
+    ssh -f $NTFK_USER@$NTFK_HOST sh scripts/disable_unwanted_services.todo
+  fi
+
   # restart networking
   if [ $RESTART_NETWORKING -eq 1 ]; then
     echo "$NTFK_HOST: Restarting networking"
@@ -247,6 +229,24 @@ if [ $NTFK_SENSOR -eq 1 ]; then
     ssh -f $NTFK_USER@$NTFK_HOST sh scripts/set_runlevel.todo
   fi
 
+  # scp fstab
+  if [ $SCP_FSTAB -eq 1 ]; then
+    echo "$NTFK_HOST: scp fstab"
+    scp -vr $BASE_DIR/files/etc/fstab root@$NTFK_HOST:/etc
+  fi
+  
+  # scp crontab
+  if [ $SCP_CRONTAB -eq 1 ]; then
+    echo "$NTFK_HOST: scp fstab"
+    scp -vr $BASE_DIR/files/etc/crontab root@$NTFK_HOST:/etc
+  fi
+
+  # scp profile
+  if [ $SCP_PROFILE -eq 1 ]; then
+    echo "$NTFK_HOST: scp fstab"
+    scp -vr $BASE_DIR/files/etc/profile root@$NTFK_HOST:/etc
+  fi
+  
   # run current address
   if [ $EXEC_CURRENT_ADDR -eq 1 ]; then
     echo "$NTFK_HOST: Running current address script"
