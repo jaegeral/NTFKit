@@ -3,11 +3,6 @@
 sudo su -
 ```
 
-#### source ntfk.conf
-```
-. /etc/ntfk.conf
-```
-
 #### Stop cron
 ```
 service cron stop
@@ -35,17 +30,9 @@ fdisk /dev/sda
 ```
 mkfs.ext4 /dev/sda
 ```
-#### change to ntfk user and copy fstab from ntfk master
+#### append mount point to fstab
 ```
-su - ntfk
-. /etc/ntfk.conf
-scp $NTFK_MASTER:files/etc/fstab.ext4 files/etc/
-exit
-```
-
-#### copy fstab to /etc
-```
-cp /home/ntfk/files/etc/fstab.ext4 /etc/fstab
+echo '/dev/sda1       /nsm            ext4    defaults,nofail 0       2' >> /etc/fstab
 ```
 
 #### mount new ext4 partition
