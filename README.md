@@ -1,6 +1,20 @@
 # NTFKit - Network Troubleshooting Field Kit
 ----------------------------------------------
 
+- [Legal Stuff](#legal-stuff)
+- [Summary](#summary)
+- [What you will need](#what-you-will-need)
+- [Installation Steps](#installation-steps)
+- [Project Phases](#project-phases)
+  - [Phase 1](#phase1)
+  - [Phase 2](#phase2)
+  - [Phase 3](#phase3)
+  - [Phase 4](#phase4)
+  - [Phase 5](#phase5)
+- [Hardware](#hardware)
+- [Software](#software)
+- [ToDo](#todo)
+
 ## Legal Stuff
 This software is provided free of charge under the GNU Public License (http://www.gnu.org/licenses/gpl.html).
 
