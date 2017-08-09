@@ -54,16 +54,21 @@ to be on data acquisition, but some effort is being made to provide other option
 ----------------------------------------------
 
 ## Project Phases
+
 ### Phase 1
-  Target Audience: Technical with Networking and Linux Expertise
+- Target Audience: Technical with Networking and Linux Expertise
+
 ### Phase 2
-  Target Audience: Technical with some Networking limited Linux Expertise
+- Target Audience: Technical with some Networking limited Linux Expertise
+
 ### Phase 3
-  Target Audience: Technical with limited Networking and limited Linux Expertise
+- Target Audience: Technical with limited Networking and limited Linux Expertise
+
 ### Phase 4
-  Target Audience: Technical with no Networking or Linux Expertise
+- Target Audience: Technical with no Networking or Linux Expertise
+
 ### Phase 5
-  Target Audience: Non-Technical
+- Target Audience: Non-Technical
 
 
 ### Current Status: Phase 1
