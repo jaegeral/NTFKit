@@ -110,30 +110,31 @@ HW-106.00	| TP-Link TL-WN722N N150 High-Gain Wireless USB Adapter (for wireless 
     - gzip_pcap_files.todo
     - initial.root.todo
     - initial.todo
-    - install_apt-transport-https.todo
-    - install_arpwatch.todo
-    - install_autossh.todo
-    - install_bro_dependencies.todo
-    - install_bro_from_package.todo
-    - install_bro_from_source.todo
-    - install_dnsmasq.todo
-    - install_elasticsearch.todo
-    - install_ettercap.todo
-    - install_foxhound-nsm.todo
-    - install_jpnevulator.todo
-    - install_nessus.todo
-    - install_netexpect.todo
-    - install_nmap.todo
-    - install_packages.todo
-    - install_pymodbus.todo
-    - install_rkhunter.todo
-    - install_snort.todo
-    - install_syslog-ng.todo
-    - install_traceroute.todo
-    - install_ttysnoop.todo
-    - install_vlan.todo
-    - install_wireshark.todo
-    - install_yara.todo
+    - install scripts
+      - install_apt-transport-https.todo
+      - install_arpwatch.todo
+      - install_autossh.todo
+      - install_bro_dependencies.todo
+      - install_bro_from_package.todo
+      - install_bro_from_source.todo
+      - install_dnsmasq.todo
+      - install_elasticsearch.todo
+      - install_ettercap.todo
+      - install_foxhound-nsm.todo
+      - install_jpnevulator.todo
+      - install_nessus.todo
+      - install_netexpect.todo
+      - install_nmap.todo
+      - install_packages.todo
+      - install_pymodbus.todo
+      - install_rkhunter.todo
+      - install_snort.todo
+      - install_syslog-ng.todo
+      - install_traceroute.todo
+      - install_ttysnoop.todo
+      - install_vlan.todo
+      - install_wireshark.todo
+      - install_yara.todo
     - keygen.root.todo
     - keygen.todo
     - make_snort_rules.todo
