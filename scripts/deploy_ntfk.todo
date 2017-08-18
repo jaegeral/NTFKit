@@ -15,6 +15,7 @@ SCP_SNORT=0
 SCP_FSTAB=0
 SCP_CRONTAB=1
 SCP_PROFILE=1
+SCP_SYSLOG_CONF=1
 SCP_BRO_NODE=0
 UPDATE_SUDOERS=0
 UPDATE_RSYSLOG=0
@@ -197,6 +198,12 @@ if [ $NTFK_SENSOR -eq 1 ]; then
   if [ $SCP_SNORT -eq 1 ]; then
     echo "$NTFK_HOST: Rsync snort files"
     scp -vr $BASE_DIR/files/etc/snort root@$NTFK_HOST:/etc
+  fi
+
+  # scp syslog-ng files
+  if [ $SCP_SYSLOG_CONF -eq 1 ]; then
+    echo "$NTFK_HOST: scp syslog-ng files"
+    scp -vr $BASE_DIR/files/etc/syslog-ng root@$NTFK_HOST:/etc
   fi
 
   # scp bro node.cfg

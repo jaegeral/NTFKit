@@ -11,7 +11,8 @@ USER=ntfk
 10,25,40,55 * * * * bash ~/scripts/current_address.todo > /tmp/scp_current_address.$USER.log 2>&1
 51 * * * * bash ~/scripts/upload_public_key.todo > /tmp/upload_public_key.$USER.log 2>&1
 8,23,38,53 * * * * bash ~/scripts/update_authorized_keys.todo > /tmp/update_authorized_keys.$USER.log 2>&1
-7 0 * * * bash ~/scripts/pcap_summary_arp.todo > /tmp/pcap_summary_arp.$USER.log 2>&1
+#7 0 * * * bash ~/scripts/pcap_summary_arp.todo > /tmp/pcap_summary_arp.$USER.log 2>&1
+7 0 * * * bash ~/scripts/tshark_unique_arp.todo > /tmp/tshark_unique_arp.$USER.log 2>&1
 7 1 * * * bash ~/scripts/pcap_summary_smb.todo > /tmp/pcap_summary_smb.$USER.log 2>&1
 37 1 * * * bash ~/scripts/pcap_summary_dns_queries.todo > /tmp/pcap_summary_dns_queries.$USER.log 2>&1
 #7 2 * * * bash ~/scripts/pcap_summary_conv_tcp.todo > /tmp/pcap_summary_conv_tcp.$USER.log 2>&1

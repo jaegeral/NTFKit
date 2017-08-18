@@ -1,0 +1,16 @@
+#
+# set up variables
+CURRENT_FILE=$0
+echo "Running script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
+
+. /etc/ntfk.conf 
+
+
+#rsync bro share files
+rsync -vr $NTFK_MASTER:files/usr/local/bro/* ~/files/usr/local/bro/
+sudo cp -r ~/files/usr/local/bro/* /usr/local/bro/
+
+
+cd
+scp $CURRENT_FILE $NTFK_MASTER:`hostname`/done/`hostname`.$USER.$(basename $CURRENT_FILE).`date +%Y%m%d-%H%M%S`
+echo "END script $CURRENT_FILE as user $USER at `date +%Y%m%d-%H%M%S`"
