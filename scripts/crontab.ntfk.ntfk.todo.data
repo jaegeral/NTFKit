@@ -2,7 +2,7 @@ USER=ntfk
 # m h  dom mon dow   command
 @reboot bash ~/scripts/run_autossh.todo > /tmp/run_autossh.$USER.log 2>&1
 @daily bash ~/scripts/rsync_bro_logs.todo > /tmp/rsync_bro_logs.$USER.log 2>&1
-*/5 * * * * bash ~/scripts/run_autossh.todo > /tmp/run_autossh.$USER.log 2>&1
+5 * * * * bash ~/scripts/run_autossh.todo > /tmp/run_autossh.$USER.log 2>&1
 0 * * * * bash ~/scripts/scp_todo_files.todo > /tmp/scp_todo_files.$USER.log 2>&1
 12 3 * * bash ~/scripts/gzip_pcap_files.todo > /tmp/gzip_pcap_files.$USER.log 2>&1
 2,17,32,47 * * * * bash ~/scripts/scp_scripts.todo > /tmp/scp_scripts.$USER.log 2>&1
