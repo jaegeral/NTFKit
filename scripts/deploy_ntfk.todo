@@ -37,6 +37,7 @@ EXEC_CRONTAB=1
 EXEC_CURRENT_ADDR=0
 DISABLE_SERVICES=0
 RESTART_NETWORKING=0
+RESTART_SYSLOG=1
 REBOOT=0
 NTFK_SERVER=0
 NTFK_SENSOR=0
@@ -224,6 +225,12 @@ if [ $NTFK_SENSOR -eq 1 ]; then
     ssh -f $NTFK_USER@$NTFK_HOST sh scripts/disable_unwanted_services.todo
   fi
 
+  # restart syslog
+  if [ $RESTART_SYSLOG -eq 1 ]; then
+    echo "$NTFK_HOST: Restarting syslog"
+    ssh -f root@$NTFK_HOST "service syslog-ng restart"
+  fi
+
   # restart networking
   if [ $RESTART_NETWORKING -eq 1 ]; then
     echo "$NTFK_HOST: Restarting networking"
@@ -244,13 +251,13 @@ if [ $NTFK_SENSOR -eq 1 ]; then
   
   # scp crontab
   if [ $SCP_CRONTAB -eq 1 ]; then
-    echo "$NTFK_HOST: scp fstab"
+    echo "$NTFK_HOST: scp crontab"
     scp -vr $BASE_DIR/files/etc/crontab root@$NTFK_HOST:/etc
   fi
 
   # scp profile
   if [ $SCP_PROFILE -eq 1 ]; then
-    echo "$NTFK_HOST: scp fstab"
+    echo "$NTFK_HOST: scp profile"
     scp -vr $BASE_DIR/files/etc/profile root@$NTFK_HOST:/etc
   fi
   
