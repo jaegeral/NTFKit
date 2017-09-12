@@ -42,9 +42,11 @@ to be on data acquisition, but some effort is being made to provide other option
 
 ## Installation Steps
 1. Follow the steps on http://www.raspberrypi.org/downloads to image your SD card. Don't forget to perform, at least, the following steps through the post-installation wizard :
-2. extend the root partition to utilize the whole SD card.
+2. [extend](http://elinux.org/RPi_Resize_Flash_Partitions) the root partition to utilize the whole SD card.
 3. enable the SSH server
-4. [more to come...]
+4. SSH to the Pi
+4. git clone https://github.com/boisgada/NTFKit
+5. [more to come...]
 
 ----------------------------------------------
 
